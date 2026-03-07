@@ -20,7 +20,8 @@ const movieSchema = new mongoose.Schema(
     // Falls back to a placeholder if not provided
     poster: {
       type: String,
-      default: "https://via.placeholder.com/500x750?text=No+Poster",
+      default:
+        "https://res.cloudinary.com/dr3icbigy/image/upload/v1772899683/placeholder_image_scac1b.png",
     },
 
     // Short description or synopsis
@@ -65,7 +66,7 @@ const movieSchema = new mongoose.Schema(
   {
     // Automatically adds createdAt and updatedAt fields
     timestamps: true,
-  }
+  },
 );
 
 module.exports = mongoose.model("Movie", movieSchema);

@@ -4,6 +4,8 @@ const cookieParser = require("cookie-parser");
 
 // Route imports
 const authRoutes = require("./routes/auth.routes");
+const movieRoutes = require("./routes/movie.routes");
+
 
 const app = express();
 
@@ -34,5 +36,7 @@ app.use(cookieParser());
  * More route files will be added here as each phase is built.
  */
 app.use("/api/auth", authRoutes);
+app.use("/api/movies", movieRoutes);
+
 
 module.exports = app;
