@@ -5,6 +5,8 @@ const cookieParser = require("cookie-parser");
 // Route imports
 const authRoutes = require("./routes/auth.routes");
 const movieRoutes = require("./routes/movie.routes");
+const favoriteRoutes = require("./routes/favorite.routes");
+
 
 
 const app = express();
@@ -37,6 +39,8 @@ app.use(cookieParser());
  */
 app.use("/api/auth", authRoutes);
 app.use("/api/movies", movieRoutes);
+app.use("/api/favorites", favoriteRoutes);
+
 
 
 module.exports = app;
