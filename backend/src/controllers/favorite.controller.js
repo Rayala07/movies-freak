@@ -33,13 +33,14 @@ const addFavorite = async (req, res, next) => {
       });
     }
 
-    // Step 2: Validate mediaType value
-    if (!["movie", "tv"].includes(mediaType)) {
+    // Step 2: Validate mediaType — must be movie, tv, or person (actor/director)
+    if (!["movie", "tv", "person"].includes(mediaType)) {
       return res.status(400).json({
         success: false,
-        message: "mediaType must be 'movie' or 'tv'.",
+        message: "mediaType must be 'movie', 'tv', or 'person'.",
       });
     }
+
 
     // Step 3: Save the favorite
     // If the user already favorited this movie, the unique compound index

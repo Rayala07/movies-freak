@@ -24,12 +24,13 @@ const watchHistorySchema = new mongoose.Schema({
     required: true,
   },
 
-  // Whether this is a movie, TV show, or person
+  // Whether this is a movie or TV show (person does not apply to watch history)
   mediaType: {
     type: String,
-    enum: ["movie", "tv", "person"],
+    enum: ["movie", "tv"],
     required: true,
   },
+
 
   /**
    * movieData — Snapshot of key TMDB fields

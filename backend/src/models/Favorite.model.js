@@ -25,12 +25,13 @@ const favoriteSchema = new mongoose.Schema(
       required: true,
     },
 
-    // Whether this is a movie or a TV show
+    // Whether this is a movie, TV show, or a person (actor/director)
     mediaType: {
       type: String,
-      enum: ["movie", "tv"],
+      enum: ["movie", "tv", "person"],
       required: true,
     },
+
 
     /**
      * movieData — Snapshot of key TMDB fields
