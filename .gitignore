@@ -1,22 +1,9 @@
 # Root .gitignore
 
-# ─── AI Memory Files (local only — never commit these) ───
+# ─── AI Memory Files ───
 AI_CONTEXT.md
 ARCHITECTURE.md
 CURRENT_TASK.md
-
-# ─── Backend ───
-backend/node_modules
-backend/.env
-backend/.env.local
-backend/.env.production
-
-# ─── Frontend ───
-frontend/node_modules
-frontend/.env
-frontend/.env.local
-frontend/.env.production
-frontend/dist
 
 # ─── OS & Editor ───
 .DS_Store
