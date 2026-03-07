@@ -1,5 +1,7 @@
 const Movie = require("../models/Movie.model");
 const cloudinary = require("../config/cloudinary");
+const { nanoid } = require("nanoid");
+
 
 /**
  * Helper Function — uploadToCloudinary
@@ -78,39 +80,30 @@ const extractPublicId = (url) => {
  */
 const createMovie = async (req, res, next) => {
   try {
-    const { title, movieId, description, releaseDate, trailerUrl, genre, category } = req.body;
+    const { title, description, releaseDate, trailerUrl, genre, category } = req.body;
 
-    // Step 1: Validate required fields
-    if (!title || !movieId) {
+    // Step 1: Validate required fields (movieId removed — auto-generated server-side)
+    if (!title) {
       return res.status(400).json({
         success: false,
-        message: "Movie title and movieId are required.",
+        message: "Movie title is required.",
       });
     }
 
-    // Step 2: Check for duplicate movieId
-    const existing = await Movie.findOne({ movieId });
-    if (existing) {
-      return res.status(400).json({
-        success: false,
-        message: "A movie with this movieId already exists.",
-      });
-    }
-
-    // Step 3: Upload poster image to Cloudinary (if a file was provided)
-    let posterUrl = undefined; // will fall back to model default if not provided
+    // Step 2: Upload poster image to Cloudinary (if a file was provided)
+    let posterUrl = undefined; // falls back to model default placeholder if not provided
 
     if (req.file) {
-      // req.file.buffer is the image in memory — upload it to Cloudinary
       const cloudinaryResult = await uploadToCloudinary(req.file.buffer);
-      posterUrl = cloudinaryResult.secure_url; // permanent hosted URL
+      posterUrl = cloudinaryResult.secure_url;
     }
 
-    // Step 4: Create the movie — poster uses Cloudinary URL or model default placeholder
+    // Step 3: Create the movie
+    // movieId is auto-generated using nanoid — unique, URL-safe, 10 chars
     const movie = await Movie.create({
       title,
-      movieId,
-      poster: posterUrl,  // undefined here triggers the model default placeholder
+      movieId: nanoid(10), // e.g. "V1StGXR8_Z" — unique every time
+      poster: posterUrl,
       description,
       releaseDate,
       trailerUrl,
@@ -127,6 +120,7 @@ const createMovie = async (req, res, next) => {
     next(error);
   }
 };
+
 
 // ─────────────────────────────────────────────────────────────────────────────
 
