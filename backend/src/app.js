@@ -3,7 +3,6 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
-const mongoSanitize = require("express-mongo-sanitize");
 
 // Route imports
 const authRoutes = require("./routes/auth.routes");
@@ -82,18 +81,6 @@ app.use(express.json());
 // Parses cookies from incoming requests → available as req.cookies
 app.use(cookieParser());
 
-/**
- * Security — MongoDB Sanitization
- * --------------------------------
- * Strips any keys that start with $ or contain . from req.body, req.params, req.query.
- * Protects against NoSQL Injection attacks.
- *
- * Example attack prevented:
- *   POST /login { "email": { "$gt": "" }, "password": "anything" }
- *   → Without sanitization, this matches ALL users and bypasses authentication
- *   → With sanitization, the $ key is stripped before Mongoose sees it
- */
-app.use(mongoSanitize());
 
 /**
  * API Routes

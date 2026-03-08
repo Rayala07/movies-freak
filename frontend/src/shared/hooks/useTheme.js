@@ -9,10 +9,12 @@ import { useEffect, useState } from "react";
  * Persists the user's preference to localStorage so it survives page refresh.
  *
  * Returns:
- *   theme    → "dark" | "light" (current theme)
+ *   theme       → "dark" | "light" (current theme)
  *   toggleTheme → function to flip between dark and light
+ *   isChanging  → boolean (true while transition is active)
  */
 const useTheme = () => {
+  const [isChanging, setIsChanging] = useState(false);
   // Read from localStorage on first load, default to "dark"
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem("moviesfreak-theme") || "dark";
@@ -26,10 +28,13 @@ const useTheme = () => {
   }, [theme]);
 
   const toggleTheme = () => {
+    setIsChanging(true);
     setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+    // Reset changing state after animation duration
+    setTimeout(() => setIsChanging(false), 500);
   };
 
-  return { theme, toggleTheme };
+  return { theme, toggleTheme, isChanging };
 };
 
 export default useTheme;

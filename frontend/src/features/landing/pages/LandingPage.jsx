@@ -1,231 +1,156 @@
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { Sun, Moon, Film, Sparkles, Play } from "lucide-react";
+import {
+  RiFilmLine,
+  RiSunLine,
+  RiMoonLine,
+  RiSparklingLine,
+  RiPlayFill,
+  RiArrowRightLine,
+} from "@remixicon/react";
 import useTheme from "../../../shared/hooks/useTheme";
 
-/**
- * LandingPage — "/"
- * ------------------
- * The first page unauthenticated users see.
- * Full-viewport hero with:
- *   - MoviesFreak branding
- *   - Cinematic tagline
- *   - Register & Login CTA buttons
- *   - Dark / Light theme toggle
- *   - Subtle Framer Motion entrance animations
- */
 const LandingPage = () => {
   const { theme, toggleTheme } = useTheme();
 
   return (
+    /* Outermost shell — full screen, no padding, holds the glow */
     <div
-      className="relative min-h-screen flex flex-col overflow-hidden"
+      className="relative min-h-screen overflow-hidden"
       style={{ background: "var(--bg-primary)", color: "var(--text-primary)" }}
     >
-      {/* ── Background decorative elements ─────────────────────────── */}
-      {/* Radial glow — accent color, top-center */}
+      {/* Radial violet glow — decorative only */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 80% 50% at 50% -10%, rgba(124,58,237,0.18) 0%, transparent 70%)",
-        }}
-      />
-      {/* Bottom vignette */}
-      <div
-        className="absolute bottom-0 left-0 right-0 h-64 pointer-events-none"
-        style={{
-          background:
-            "linear-gradient(to top, var(--bg-primary) 0%, transparent 100%)",
+            "radial-gradient(ellipse 80% 55% at 50% -5%, rgba(93, 0, 255, 0.37) 0%, transparent 70%)",
         }}
       />
 
-      {/* ── Navbar strip ───────────────────────────────────────────── */}
-      <motion.header
-        initial={{ opacity: 0, y: -16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, ease: "easeOut" }}
-        className="relative z-10 flex items-center justify-between px-8 py-6"
-      >
-        {/* Logo */}
-        <div className="flex items-center gap-2">
-          <Film
-            size={22}
-            style={{ color: "var(--accent)" }}
-          />
-          <span
-            className="text-lg font-semibold tracking-tight"
-            style={{ color: "var(--text-primary)" }}
-          >
-            MoviesFreak
-          </span>
-        </div>
+      {/* ── Centered max-width container ── all content lives here */}
+      <div className="relative z-10 max-w-8xl mx-auto px-6 lg:px-12 flex flex-col min-h-screen">
 
-        {/* Theme toggle */}
-        <button
-          onClick={toggleTheme}
-          className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200"
-          style={{
-            background: "var(--bg-card)",
-            color: "var(--text-secondary)",
-            border: "1px solid var(--border)",
-          }}
-          aria-label="Toggle theme"
-        >
-          {theme === "dark" ? (
-            <>
-              <Sun size={14} />
-              <span>Light</span>
-            </>
-          ) : (
-            <>
-              <Moon size={14} />
-              <span>Dark</span>
-            </>
-          )}
-        </button>
-      </motion.header>
+        {/* ── Header ─────────────────────────────────────────────── */}
+        <header className="animate-in flex items-center justify-between py-6">
+          {/* Logo */}
+          <div className="flex items-center gap-2.5">
+            <RiFilmLine size={20} style={{ color: "var(--accent)" }} />
+            <span className="text-base font-semibold tracking-tight">
+              MoviesFreak
+            </span>
+          </div>
 
-      {/* ── Hero content ───────────────────────────────────────────── */}
-      <main className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-6 py-16">
-
-        {/* Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.1, ease: "easeOut" }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium mb-8"
-          style={{
-            background: "var(--accent-light)",
-            color: "var(--accent)",
-            border: "1px solid rgba(124,58,237,0.25)",
-          }}
-        >
-          <Sparkles size={12} />
-          Discover · Watch · Enjoy
-        </motion.div>
-
-        {/* Main heading */}
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
-          className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight leading-none mb-6"
-          style={{ color: "var(--text-primary)" }}
-        >
-          Your world of
-          <br />
-          <span
+          {/* Theme toggle */}
+          <button
+            onClick={toggleTheme}
+            className="group flex items-center justify-center w-8 h-8 rounded-full cursor-pointer transition-all duration-200 active:scale-95"
             style={{
-              background: "linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #c084fc 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
+              background: "var(--bg-hover)",
+              border: "1px solid var(--border)",
+              color: "var(--text-secondary)",
+            }}
+            aria-label="Toggle theme"
+          >
+            <div className="transition-transform duration-300 group-hover:rotate-12 group-active:rotate-45">
+              {theme === "dark" ? <RiSunLine size={14} /> : <RiMoonLine size={14} />}
+            </div>
+          </button>
+        </header>
+
+        {/* ── Hero Content ─────────────────────────────────────────── */}
+        <main className="flex-1 flex flex-col items-center justify-center text-center py-10">
+
+          {/* Badge */}
+          <div
+            className="animate-in delay-100 inline-flex items-center gap-2 px-5 py-2 rounded-full text-xs font-medium mb-10"
+            style={{
+              background: "var(--accent-light)",
+              color: "var(--accent)",
+              border: "1px solid rgba(124,58,237,0.25)",
             }}
           >
-            movies & shows
-          </span>
-        </motion.h1>
+            <RiSparklingLine size={13} />
+            Discover · Watch · Enjoy
+          </div>
 
-        {/* Subheading */}
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3, ease: "easeOut" }}
-          className="text-base sm:text-lg max-w-lg mx-auto mb-10 leading-relaxed"
-          style={{ color: "var(--text-secondary)" }}
-        >
-          Explore trending movies, discover TV shows, watch trailers, and build
-          your personal collection — all in one place.
-        </motion.p>
-
-        {/* CTA Buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.4, ease: "easeOut" }}
-          className="flex items-center gap-4 flex-wrap justify-center"
-        >
-          {/* Primary — Register */}
-          <Link to="/register">
-            <motion.button
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.97 }}
-              className="flex items-center gap-2 px-7 py-3 rounded-full text-sm font-semibold transition-colors duration-200"
+          {/* Headline */}
+          <h1 className="animate-in delay-200 text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight leading-tight mb-7">
+            Your world of
+            <br />
+            <span
               style={{
-                background: "var(--accent)",
-                color: "#ffffff",
+                background: "linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #c084fc 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
               }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.background = "var(--accent-hover)")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.background = "var(--accent)")
-              }
             >
-              <Play size={14} fill="white" />
-              Get Started
-            </motion.button>
-          </Link>
+              movies & shows
+            </span>
+          </h1>
 
-          {/* Secondary — Login */}
-          <Link to="/login">
-            <motion.button
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.97 }}
-              className="px-7 py-3 rounded-full text-sm font-semibold transition-all duration-200"
-              style={{
-                background: "transparent",
-                color: "var(--text-primary)",
-                border: "1px solid var(--border-hover)",
-              }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.borderColor = "var(--accent)")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.borderColor = "var(--border-hover)")
-              }
-            >
-              Sign In
-            </motion.button>
-          </Link>
-        </motion.div>
+          {/* Subtext */}
+          <p
+            className="animate-in delay-300 text-base sm:text-lg max-w-md leading-relaxed mb-20"
+            style={{ color: "var(--text-secondary)" }}
+          >
+            Explore trending movies, discover TV shows, watch trailers, and build
+            your personal collection. All in one place.
+          </p>
 
-        {/* Social proof / feature chips */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
-          className="flex items-center gap-6 mt-16 flex-wrap justify-center"
+          {/* CTA Buttons */}
+          <div className="animate-in delay-400 flex items-center gap-4 flex-wrap justify-center mb-16">
+            {/* Primary — Get Started */}
+            <Link to="/register">
+              <button
+                className="btn-fill-primary relative overflow-hidden flex items-center gap-2.5 px-8 py-3.5 rounded-full text-sm font-semibold cursor-pointer border-0 text-white"
+                style={{ background: "var(--accent)" }}
+              >
+                <RiPlayFill size={14} className="relative z-10" />
+                <span className="relative z-10">Get Started</span>
+              </button>
+            </Link>
+
+            {/* Secondary — Sign In */}
+            <Link to="/login">
+              <button
+                className="btn-fill-secondary relative overflow-hidden flex items-center gap-2.5 px-8 py-3.5 rounded-full text-sm font-semibold cursor-pointer"
+                style={{
+                  background: "transparent",
+                  color: "var(--text-primary)",
+                  border: "1px solid var(--border-hover)",
+                }}
+              >
+                <span className="relative z-10">Sign In</span>
+                <RiArrowRightLine size={14} className="relative z-10" />
+              </button>
+            </Link>
+          </div>
+
+
+          {/* Feature chips */}
+          <div
+            className="animate-in delay-500 flex items-center gap-8 flex-wrap justify-center"
+            style={{ color: "var(--text-muted)" }}
+          >
+            {["Trending Movies", "Real-time Search", "Watch Trailers", "Personal Favorites"].map((f) => (
+              <span key={f} className="flex items-center gap-2 text-xs font-medium">
+                <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: "var(--accent)" }} />
+                {f}
+              </span>
+            ))}
+          </div>
+        </main>
+
+        {/* ── Footer ───────────────────────────────────────────────── */}
+        <footer
+          className="animate-in delay-500 text-center pb-2 text-xs"
           style={{ color: "var(--text-muted)" }}
         >
-          {["Trending Movies", "Real-time Search", "Watch Trailers", "Personal Favorites"].map(
-            (feature) => (
-              <span
-                key={feature}
-                className="flex items-center gap-1.5 text-xs font-medium"
-              >
-                <span
-                  className="w-1 h-1 rounded-full"
-                  style={{ background: "var(--accent)" }}
-                />
-                {feature}
-              </span>
-            )
-          )}
-        </motion.div>
-      </main>
+          Powered by TMDB
+        </footer>
 
-      {/* ── Footer strip ───────────────────────────────────────────── */}
-      <motion.footer
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.4, delay: 0.7 }}
-        className="relative z-10 text-center pb-8 text-xs"
-        style={{ color: "var(--text-muted)" }}
-      >
-        Powered by TMDB · Built with React & Node.js
-      </motion.footer>
+      </div>{/* end max-w container */}
     </div>
   );
 };

@@ -1,8 +1,12 @@
 /* ─── Google Fonts — Inter ─────────────────────────────────────────── */
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
 
-/* ─── Tailwind base ────────────────────────────────────────────────── */
+/* ─── Tailwind v4 ───────────────────────────────────────────────────── */
+/* @source = v4 equivalent of content[] array in tailwind.config.js (v3) */
+/* Tells Tailwind to explicitly scan all JS/JSX files under src/         */
 @import "tailwindcss";
+@source "../../";
+
 
 /* ─── CSS Variables — Design Tokens ───────────────────────────────── */
 /*
@@ -79,27 +83,42 @@
 }
 
 /* ─── Base Reset & Global Styles ──────────────────────────────────── */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+/*
+  IMPORTANT: All custom base rules MUST be inside @layer base.
+  Tailwind v4 puts utilities inside @layer utilities.
+  Any CSS outside a layer beats layered rules regardless of specificity.
+  Without @layer base here, * { margin:0; padding:0 } would override
+  ALL Tailwind spacing utilities (px-*, py-*, mb-*, gap-* etc.)
+*/
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
 
-html {
-  scroll-behavior: smooth;
-}
+  html {
+    scroll-behavior: smooth;
+  }
 
-body {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 16px;
-  line-height: 1.6;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  /* Smooth theme transition — globally efficient across all elements */
+  *,
+  *::before,
+  *::after {
+    transition: background-color 0.45s ease, color 0.35s ease, border-color 0.45s ease, box-shadow 0.45s ease;
+  }
+
+  body {
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 }
 
 /* Custom scrollbar — subtle, dark-themed */
@@ -117,9 +136,73 @@ body {
   background: var(--text-secondary);
 }
 
+
+/* ─── Shared Animations — Pure CSS for reliability ───────────────── */
+
+/* Entrance Animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-in {
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0; /* starts hidden */
+}
+
+/* Stagger delays — simple but effective */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+
+/* Button left-to-right fill animation */
+.btn-fill-primary::before,
+.btn-fill-secondary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+  z-index: 0;
+}
+
+.btn-fill-primary::before { background: var(--accent-hover); }
+.btn-fill-secondary::before { background: var(--bg-hover); }
+
+.btn-fill-primary:hover::before,
+.btn-fill-secondary:hover::before {
+  transform: scaleX(1);
+}
+
+.btn-fill-primary:active,
+.btn-fill-secondary:active {
+  transform: scale(0.97);
+  transition: transform 0.15s ease;
+}
+
+/* ─────────────────────────────────────────────────────────────────── */
+
 /* ─── Utility Classes ─────────────────────────────────────────────── */
 
+/* Auth form inputs — focus ring with CSS var accent */
+.auth-input {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.auth-input:focus {
+  outline: none;
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+}
+.auth-input::placeholder {
+  color: var(--text-muted);
+}
+
 /* Hide horizontal scrollbars on movie rows (scroll still works) */
+
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
