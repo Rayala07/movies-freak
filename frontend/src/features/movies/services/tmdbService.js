@@ -36,6 +36,16 @@ const tmdbService = {
     });
     return response.data;
   },
+
+  /**
+   * Fetch TV show details by ID (with videos, credits, similar).
+   */
+  getTVDetails: async (tvId) => {
+    const response = await tmdbInstance.get(`/tv/${tvId}`, {
+      params: { append_to_response: "videos,credits,similar" },
+    });
+    return response.data;
+  },
 };
 
 export default tmdbService;

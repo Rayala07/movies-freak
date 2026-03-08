@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { RiStarFill } from "@remixicon/react";
 
 /**
@@ -5,6 +6,7 @@ import { RiStarFill } from "@remixicon/react";
  * -------------------
  * The atomic unit of our discovery grid.
  * Design: Minimal, high-quality lift on hover, clean info.
+ * Clicking navigates to the detail page (F5).
  */
 const MovieCard = ({ movie }) => {
   // TMDB image helper
@@ -12,8 +14,13 @@ const MovieCard = ({ movie }) => {
     ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
     : "https://via.placeholder.com/500x750?text=No+Poster";
 
+  // Determine route: /tv/ for TV shows, /movie/ for everything else
+  const linkPath = movie.media_type === "tv"
+    ? `/tv/${movie.id}`
+    : `/movie/${movie.id}`;
+
   return (
-    <div className="group flex flex-col gap-3 cursor-pointer">
+    <Link to={linkPath} className="group flex flex-col gap-3 cursor-pointer no-underline">
       {/* Poster Container */}
       <div className="relative aspect-[2/3] overflow-hidden rounded-2xl card-hover" style={{ border: "1px solid var(--border)" }}>
         <img 
@@ -45,7 +52,7 @@ const MovieCard = ({ movie }) => {
           {new Date(movie.release_date || movie.first_air_date).getFullYear() || "TBA"}
         </p>
       </div>
-    </div>
+    </Link>
   );
 };
 

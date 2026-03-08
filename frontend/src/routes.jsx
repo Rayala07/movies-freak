@@ -5,6 +5,7 @@ import RegisterPage from "./features/auth/pages/RegisterPage";
 import ProtectedRoute from "./shared/components/ProtectedRoute";
 import AdminRoute from "./shared/components/AdminRoute";
 import HomePage from "./features/movies/pages/HomePage";
+import MovieDetailPage from "./features/movies/pages/MovieDetailPage";
 import Layout from "./shared/components/Layout";
 import "./shared/styles/global.css";
 
@@ -31,6 +32,26 @@ export const routes = createBrowserRouter([
       <ProtectedRoute>
         <Layout>
           <HomePage />
+        </Layout>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/movie/:id",
+    element: (
+      <ProtectedRoute>
+        <Layout>
+          <MovieDetailPage mediaType="movie" />
+        </Layout>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/tv/:id",
+    element: (
+      <ProtectedRoute>
+        <Layout>
+          <MovieDetailPage mediaType="tv" />
         </Layout>
       </ProtectedRoute>
     ),

@@ -38,6 +38,30 @@ export const fetchDiscoveryMovies = createAsyncThunk(
   }
 );
 
+// Fetch full movie details (videos, credits, similar)
+export const fetchMovieDetail = createAsyncThunk(
+  "movies/fetchMovieDetail",
+  async (movieId, { rejectWithValue }) => {
+    try {
+      return await tmdbService.getMovieDetails(movieId);
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.status_message || "Failed to fetch movie details");
+    }
+  }
+);
+
+// Fetch full TV show details (videos, credits, similar)
+export const fetchTVDetail = createAsyncThunk(
+  "movies/fetchTVDetail",
+  async (tvId, { rejectWithValue }) => {
+    try {
+      return await tmdbService.getTVDetails(tvId);
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.status_message || "Failed to fetch TV details");
+    }
+  }
+);
+
 /**
  * movieSlice — Layer 3 (State)
  */
@@ -51,12 +75,21 @@ const movieSlice = createSlice({
     heroLoading: false,
     hasMore: true,
     error: null,
+    // Detail page (F5)
+    movieDetail: null,
+    detailLoading: false,
+    detailError: null,
   },
   reducers: {
     resetDiscovery: (state) => {
       state.discoveryMovies = [];
       state.page = 1;
       state.hasMore = true;
+    },
+    clearDetail: (state) => {
+      state.movieDetail = null;
+      state.detailLoading = false;
+      state.detailError = null;
     },
   },
   extraReducers: (builder) => {
@@ -86,9 +119,34 @@ const movieSlice = createSlice({
       .addCase(fetchDiscoveryMovies.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      // Movie/TV Detail (F5)
+      .addCase(fetchMovieDetail.pending, (state) => {
+        state.detailLoading = true;
+        state.detailError = null;
+      })
+      .addCase(fetchMovieDetail.fulfilled, (state, action) => {
+        state.detailLoading = false;
+        state.movieDetail = action.payload;
+      })
+      .addCase(fetchMovieDetail.rejected, (state, action) => {
+        state.detailLoading = false;
+        state.detailError = action.payload;
+      })
+      .addCase(fetchTVDetail.pending, (state) => {
+        state.detailLoading = true;
+        state.detailError = null;
+      })
+      .addCase(fetchTVDetail.fulfilled, (state, action) => {
+        state.detailLoading = false;
+        state.movieDetail = action.payload;
+      })
+      .addCase(fetchTVDetail.rejected, (state, action) => {
+        state.detailLoading = false;
+        state.detailError = action.payload;
       });
   },
 });
 
-export const { resetDiscovery } = movieSlice.actions;
+export const { resetDiscovery, clearDetail } = movieSlice.actions;
 export default movieSlice.reducer;
