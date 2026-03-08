@@ -2,10 +2,8 @@ import Navbar from "./Navbar";
 
 /**
  * Layout — shared wrapper for all protected pages.
- * Renders Navbar at the top, page content below.
- *
- * Usage in routes.jsx:
- *   element: <Layout><HomePage /></Layout>
+ * Navbar floats on top (z-50). Children can extend behind it
+ * via negative margin (e.g. the Hero section on HomePage).
  */
 const Layout = ({ children }) => {
   return (
@@ -14,7 +12,7 @@ const Layout = ({ children }) => {
       style={{ background: "var(--bg-primary)", color: "var(--text-primary)" }}
     >
       <Navbar />
-      <main>{children}</main>
+      {children}
     </div>
   );
 };

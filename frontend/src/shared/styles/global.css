@@ -46,7 +46,7 @@
   --gradient-card: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, transparent 60%);
 
   /* Navbar */
-  --navbar-bg: rgba(10, 10, 15, 0.85);
+  --navbar-bg: rgba(10, 10, 15, 0.392);
 }
 
 [data-theme="light"] {
@@ -78,8 +78,8 @@
   /* Card overlay gradient */
   --gradient-card: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, transparent 60%);
 
-  /* Navbar */
-  --navbar-bg: rgba(248, 248, 252, 0.9);
+  /* Navbar — more opaque for clarity over hero backdrops */
+  --navbar-bg: rgba(255, 255, 255, 0.82);
 }
 
 /* ─── Base Reset & Global Styles ──────────────────────────────────── */
@@ -121,19 +121,16 @@
   }
 }
 
-/* Custom scrollbar — subtle, dark-themed */
-::-webkit-scrollbar {
-  width: 6px;
+/* ─── Hide scrollbar globally ────────────────────────────────────── */
+/* Outside @layer so it cannot be overridden by Tailwind utilities   */
+html,
+body {
+  -ms-overflow-style: none;  /* IE / Edge */
+  scrollbar-width: none;     /* Firefox  */
 }
-::-webkit-scrollbar-track {
-  background: var(--bg-secondary);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--text-muted);
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--text-secondary);
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;             /* Chrome / Safari / Opera */
 }
 
 

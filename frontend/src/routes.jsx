@@ -4,6 +4,7 @@ import LoginPage from "./features/auth/pages/LoginPage";
 import RegisterPage from "./features/auth/pages/RegisterPage";
 import ProtectedRoute from "./shared/components/ProtectedRoute";
 import AdminRoute from "./shared/components/AdminRoute";
+import HomePage from "./features/movies/pages/HomePage";
 import Layout from "./shared/components/Layout";
 import "./shared/styles/global.css";
 
@@ -29,7 +30,7 @@ export const routes = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <Layout>
-          <div className="p-8">Home Page — Phase F4</div>
+          <HomePage />
         </Layout>
       </ProtectedRoute>
     ),
