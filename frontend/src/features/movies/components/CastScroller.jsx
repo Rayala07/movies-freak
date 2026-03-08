@@ -38,19 +38,15 @@ const CastScroller = ({ cast = [] }) => {
                 transition: "border-color 0.3s ease, transform 0.3s ease",
               }}
             >
-              {person.profile_path ? (
-                <img
-                  src={`https://image.tmdb.org/t/p/w185${person.profile_path}`}
-                  alt={person.name}
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                />
-              ) : (
-                <RiUserLine
-                  size={28}
-                  style={{ color: "var(--text-muted)" }}
-                />
-              )}
+              <img
+                src={person.profile_path 
+                  ? `https://image.tmdb.org/t/p/w185${person.profile_path}` 
+                  : "https://res.cloudinary.com/dr3icbigy/image/upload/v1772977435/download_sgd3rm.jpg"
+                }
+                alt={person.name}
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
             </div>
 
             {/* Name */}

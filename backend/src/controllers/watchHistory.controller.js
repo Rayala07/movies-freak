@@ -131,4 +131,21 @@ const removeFromHistory = async (req, res, next) => {
   }
 };
 
-module.exports = { addToHistory, getHistory, removeFromHistory };
+/**
+ * @route   DELETE /api/history
+ * @desc    Clear ALL watch history for the current user at once
+ * @access  Protected
+ */
+const clearAllHistory = async (req, res, next) => {
+  try {
+    await WatchHistory.deleteMany({ userId: req.user._id });
+    res.status(200).json({
+      success: true,
+      message: "Watch history cleared.",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { addToHistory, getHistory, removeFromHistory, clearAllHistory };

@@ -221,7 +221,8 @@ body::-webkit-scrollbar {
 .section-container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
 
 /* Card hover lift — shared across MovieCard, PersonCard */

@@ -6,6 +6,13 @@ import ProtectedRoute from "./shared/components/ProtectedRoute";
 import AdminRoute from "./shared/components/AdminRoute";
 import HomePage from "./features/movies/pages/HomePage";
 import MovieDetailPage from "./features/movies/pages/MovieDetailPage";
+import SearchPage from "./features/movies/pages/SearchPage";
+import FavoritesPage from "./features/favorites/pages/FavoritesPage";
+import WatchlistPage from "./features/watchlist/pages/WatchlistPage";
+import HistoryPage from "./features/history/pages/HistoryPage";
+import AdminDashboard from "./features/admin/pages/AdminDashboard";
+import CollectionPage from "./features/collection/pages/CollectionPage";
+import CollectionDetailPage from "./features/collection/pages/CollectionDetailPage";
 import Layout from "./shared/components/Layout";
 import "./shared/styles/global.css";
 
@@ -61,7 +68,7 @@ export const routes = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <Layout>
-          <div className="p-8">Search Page — Phase F6</div>
+          <SearchPage />
         </Layout>
       </ProtectedRoute>
     ),
@@ -71,7 +78,7 @@ export const routes = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <Layout>
-          <div className="p-8">Favorites Page — Phase F7</div>
+          <FavoritesPage />
         </Layout>
       </ProtectedRoute>
     ),
@@ -81,7 +88,7 @@ export const routes = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <Layout>
-          <div className="p-8">Watchlist Page — Phase F7</div>
+          <WatchlistPage />
         </Layout>
       </ProtectedRoute>
     ),
@@ -91,7 +98,28 @@ export const routes = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <Layout>
-          <div className="p-8">Watch History — Phase F7</div>
+          <HistoryPage />
+        </Layout>
+      </ProtectedRoute>
+    ),
+  },
+
+  {
+    path: "/collection",
+    element: (
+      <ProtectedRoute>
+        <Layout>
+          <CollectionPage />
+        </Layout>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/collection/:id",
+    element: (
+      <ProtectedRoute>
+        <Layout>
+          <CollectionDetailPage />
         </Layout>
       </ProtectedRoute>
     ),
@@ -103,7 +131,7 @@ export const routes = createBrowserRouter([
     element: (
       <AdminRoute>
         <Layout>
-          <div className="p-8">Admin Dashboard — Phase F8</div>
+          <AdminDashboard />
         </Layout>
       </AdminRoute>
     ),

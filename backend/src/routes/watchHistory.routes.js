@@ -5,6 +5,7 @@ const {
   addToHistory,
   getHistory,
   removeFromHistory,
+  clearAllHistory,
 } = require("../controllers/watchHistory.controller");
 const { protectRoute } = require("../middleware/auth.middleware");
 
@@ -23,6 +24,7 @@ const { protectRoute } = require("../middleware/auth.middleware");
 
 router.get("/", protectRoute, getHistory);
 router.post("/", protectRoute, addToHistory);
-router.delete("/:id", protectRoute, removeFromHistory);
+router.delete("/", protectRoute, clearAllHistory);   // Clear ALL history
+router.delete("/:id", protectRoute, removeFromHistory); // Remove one entry
 
 module.exports = router;

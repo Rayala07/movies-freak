@@ -62,19 +62,63 @@ export const fetchTVDetail = createAsyncThunk(
   }
 );
 
+// Fetch all-trending for Popular row (movies + TV mix)
+export const fetchPopularAll = createAsyncThunk(
+  "movies/fetchPopularAll",
+  async (_, { rejectWithValue }) => {
+    try {
+      const data = await tmdbService.getPopularAll(1);
+      return data.results.filter((m) => m.poster_path).slice(0, 20);
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.status_message || "Failed to fetch popular");
+    }
+  }
+);
+
+// Fetch popular movies row
+export const fetchPopularMovies = createAsyncThunk(
+  "movies/fetchPopularMovies",
+  async (_, { rejectWithValue }) => {
+    try {
+      const data = await tmdbService.getPopularMovies(1);
+      return data.results.filter((m) => m.poster_path).slice(0, 20);
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.status_message || "Failed to fetch movies");
+    }
+  }
+);
+
+// Fetch popular TV shows row
+export const fetchPopularTV = createAsyncThunk(
+  "movies/fetchPopularTV",
+  async (_, { rejectWithValue }) => {
+    try {
+      const data = await tmdbService.getPopularTV(1);
+      return data.results.filter((m) => m.poster_path).slice(0, 20);
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.status_message || "Failed to fetch TV shows");
+    }
+  }
+);
+
 /**
  * movieSlice — Layer 3 (State)
  */
 const movieSlice = createSlice({
   name: "movies",
   initialState: {
-    heroMovies: [],       // Top 5 trending for the carousel
+    heroMovies: [],
     discoveryMovies: [],
     page: 1,
     loading: false,
     heroLoading: false,
     hasMore: true,
     error: null,
+    // Home sections
+    popularAll: [],
+    popularMovies: [],
+    popularTV: [],
+    sectionsLoading: false,
     // Detail page (F5)
     movieDetail: null,
     detailLoading: false,
@@ -144,6 +188,20 @@ const movieSlice = createSlice({
       .addCase(fetchTVDetail.rejected, (state, action) => {
         state.detailLoading = false;
         state.detailError = action.payload;
+      })
+      // Popular All
+      .addCase(fetchPopularAll.pending, (state) => { state.sectionsLoading = true; })
+      .addCase(fetchPopularAll.fulfilled, (state, action) => {
+        state.sectionsLoading = false;
+        state.popularAll = action.payload;
+      })
+      // Popular Movies
+      .addCase(fetchPopularMovies.fulfilled, (state, action) => {
+        state.popularMovies = action.payload;
+      })
+      // Popular TV
+      .addCase(fetchPopularTV.fulfilled, (state, action) => {
+        state.popularTV = action.payload;
       });
   },
 });

@@ -46,6 +46,57 @@ const tmdbService = {
     });
     return response.data;
   },
+
+  /**
+   * Multi-search for movies, TV shows, and people.
+   */
+  searchMulti: async (query, page = 1) => {
+    const response = await tmdbInstance.get(`/search/multi`, {
+      params: { query, page, language: "en-US", include_adult: false },
+    });
+    return response.data;
+  },
+
+  /**
+   * Trending all (movies + TV) used for Popular row.
+   */
+  getPopularAll: async (page = 1) => {
+    const response = await tmdbInstance.get(`/trending/all/week`, {
+      params: { page, language: "en-US" },
+    });
+    return response.data;
+  },
+
+  /**
+   * Popular movies specifically.
+   */
+  getPopularMovies: async (page = 1) => {
+    const response = await tmdbInstance.get(`/movie/popular`, {
+      params: { page, language: "en-US" },
+    });
+    return response.data;
+  },
+
+  /**
+   * Popular TV shows specifically.
+   */
+  getPopularTV: async (page = 1) => {
+    const response = await tmdbInstance.get(`/tv/popular`, {
+      params: { page, language: "en-US" },
+    });
+    return response.data;
+  },
+
+  /**
+   * Fetch just the videos (trailers) for a given TMDB item.
+   * Used by the Hero "Play Now" button.
+   */
+  getVideos: async (id, mediaType = "movie") => {
+    const response = await tmdbInstance.get(`/${mediaType}/${id}/videos`, {
+      params: { language: "en-US" },
+    });
+    return response.data;
+  },
 };
 
 export default tmdbService;
