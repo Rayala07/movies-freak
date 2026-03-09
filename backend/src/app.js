@@ -3,6 +3,8 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
+const path = require("path");
+
 
 // Route imports
 const authRoutes = require("./routes/auth.routes");
@@ -27,7 +29,43 @@ const app = express();
  *   - MIME sniffing — via X-Content-Type-Options
  *   - Information leakage — removes X-Powered-By: Express header
  */
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        // API calls: our backend + TMDB
+        connectSrc: [
+          "'self'",
+          "https://api.themoviedb.org",
+          "https://res.cloudinary.com",
+        ],
+        // Images: TMDB CDN, Cloudinary, data URIs (base64 placeholders)
+        imgSrc: [
+          "'self'",
+          "data:",
+          "blob:",
+          "https://image.tmdb.org",
+          "https://res.cloudinary.com",
+          "https://www.youtube.com",
+          "https://i.ytimg.com",
+        ],
+        // YouTube iframes for trailers
+        frameSrc: [
+          "https://www.youtube.com",
+          "https://youtube.com",
+        ],
+        // Vite production build uses inline scripts
+        scriptSrc: ["'self'", "'unsafe-inline'"],
+        // Tailwind/inline styles + Google Fonts
+        styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+        fontSrc: ["'self'", "https://fonts.gstatic.com"],
+        // Required for YouTube embeds
+        mediaSrc: ["'self'", "https://www.youtube.com"],
+      },
+    },
+  })
+);
 
 /**
  * Security — Rate Limiting
@@ -103,5 +141,21 @@ app.use("/api/users", generalLimiter, userRoutes);
  * Handles: Mongoose validation, duplicate key, CastError, generic 500 errors.
  */
 app.use(errorHandler);
+
+/**
+ * Production — Serve React Frontend
+ * -----------------------------------
+ * When NODE_ENV=production, Express serves the Vite build from backend/client/.
+ * The catch-all '*' sends index.html for every non-API route so React Router
+ * can handle client-side navigation (e.g. /movie/123, /favorites, etc.).
+ * In development this block is skipped entirely.
+ */
+if (process.env.NODE_ENV === "production") {
+  const clientPath = path.join(__dirname, "..", "client");
+  app.use(express.static(clientPath));
+  app.get("/*splat", (req, res) => {
+    res.sendFile(path.join(clientPath, "index.html"));
+  });
+}
 
 module.exports = app;
