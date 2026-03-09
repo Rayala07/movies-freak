@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "npx nodemon server.js",
-    "build": "cd ../frontend && npm install && npm run build && cp -r dist ../backend/client",
+    "build": "cd ../frontend && npm install --include=dev && npm run build && cp -r dist ../backend/client",
     "build:win": "cd ../frontend && npm install && npm run build && xcopy /E /I /Y dist ..\\backend\\client",
     "start": "node server.js"
   },

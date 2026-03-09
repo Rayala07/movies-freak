@@ -4,7 +4,7 @@ services:
     runtime: node
     plan: free
     rootDir: .
-    buildCommand: cd frontend && npm install && npm run build && cp -r dist ../backend/client && cd ../backend && npm install
+    buildCommand: cd frontend && npm install --include=dev && npm run build && cp -r dist ../backend/client && cd ../backend && npm install
     startCommand: cd backend && node server.js
     envVars:
       - key: NODE_ENV
