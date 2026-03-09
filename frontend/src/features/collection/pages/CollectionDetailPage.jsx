@@ -144,7 +144,7 @@ const CollectionDetailPage = () => {
       </div>
 
       {/* ── Page content ─────────────────────────────────────────────── */}
-      <div className="relative z-10 section-container flex-1 flex flex-col justify-center py-10">
+      <div className="relative z-10 section-container flex-1 flex flex-col justify-center pt-10 pb-28 lg:py-10">
 
         {/* Back nav */}
         <Link

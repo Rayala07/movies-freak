@@ -39,14 +39,16 @@ const MovieDetailPage = ({ mediaType = "movie" }) => {
   const favoriteItems = useSelector((state) => state.favorites.items);
   const watchlistItems = useSelector((state) => state.watchlist.items);
   const [showTrailer, setShowTrailer] = useState(false);
-  const [isDark, setIsDark] = useState(() => !document.documentElement.classList.contains("light"));
+  // Detect theme live — theme system uses data-theme attribute, NOT a class
+  const [isDark, setIsDark] = useState(
+    () => document.documentElement.getAttribute("data-theme") !== "light"
+  );
 
-  // Re-detect theme if user switches live
   useEffect(() => {
     const observer = new MutationObserver(() => {
-      setIsDark(!document.documentElement.classList.contains("light"));
+      setIsDark(document.documentElement.getAttribute("data-theme") !== "light");
     });
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
     return () => observer.disconnect();
   }, []);
 
@@ -193,10 +195,10 @@ const MovieDetailPage = ({ mediaType = "movie" }) => {
   return (
     <div className="min-h-screen" style={{ background: "var(--bg-primary)" }}>
       {/* ─── Cinematic Backdrop ─────────────────────────────────────── */}
-      <div className="relative w-full h-[55vh] md:h-[70vh] overflow-hidden -mt-14">
+      <div className="relative w-full h-[55vh] xl:h-[70vh] overflow-hidden">
 
-        {/* Mobile: portrait poster — no cropping */}
-        <div className="block md:hidden absolute inset-0">
+        {/* Mobile + Tablet: portrait poster — no cropping */}
+        <div className="block xl:hidden absolute inset-0">
           <img
             src={posterUrl}
             alt={title}
@@ -205,7 +207,7 @@ const MovieDetailPage = ({ mediaType = "movie" }) => {
         </div>
 
         {/* Desktop: wide cinematic backdrop */}
-        <div className="hidden md:block absolute inset-0">
+        <div className="hidden xl:block absolute inset-0">
           {backdropUrl && (
             <img
               src={backdropUrl}
@@ -229,7 +231,7 @@ const MovieDetailPage = ({ mediaType = "movie" }) => {
           style={{
             background: isDark
               ? "linear-gradient(to top, var(--bg-primary) 0%, rgba(0,0,0,0.5) 40%, transparent 70%)"
-              : "linear-gradient(to top, var(--bg-primary) 0%, var(--bg-primary) 10%, rgba(255,255,255,0.05) 50%, transparent 80%)",
+              : "linear-gradient(to top, var(--bg-primary) 0%, var(--bg-primary) 5%, transparent 15%)",
           }}
         />
         <Link

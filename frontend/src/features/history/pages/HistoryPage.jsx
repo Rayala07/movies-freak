@@ -51,7 +51,7 @@ const HistoryPage = () => {
     "https://res.cloudinary.com/dr3icbigy/image/upload/v1772899683/placeholder_image_scac1b.png";
 
   return (
-    <div className="min-h-screen pt-12" style={{ background: "var(--bg-primary)" }}>
+    <div className="min-h-[calc(100vh-3.5rem)] pt-12" style={{ background: "var(--bg-primary)" }}>
       <div className="section-container">
 
         {/* ── Header ─────────────────────────────────────────────── */}

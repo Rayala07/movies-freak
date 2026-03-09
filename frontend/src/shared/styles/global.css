@@ -27,6 +27,7 @@
   --text-primary: #f1f1f3;
   --text-secondary: #9898a8;
   --text-muted: #5a5a6e;
+  --text-highlighted: #7c3aed;
 
   /* Accent — vibrant purple-violet (premium streaming feel) */
   --accent: #7c3aed;
@@ -60,6 +61,7 @@
   --text-primary: #0f0f14;
   --text-secondary: #55556a;
   --text-muted: #9898a8;
+  --text-highlighted: #7c3aed;
 
   /* Accent stays consistent */
   --accent: #7c3aed;
@@ -238,4 +240,18 @@ body::-webkit-scrollbar {
 .line-clamp-1 { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 1; line-clamp: 1; -webkit-box-orient: vertical; }
 .line-clamp-2 { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; }
 .line-clamp-3 { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; }
+
+/* ─── Navbar — Glassmorphism Pill (hover) ─────────────────────── */
+/* Inline style props cannot target :hover, so we use a utility class.   */
+/* Applied to all nav links; the active state is handled inline.          */
+.nav-link-glass {
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+.nav-link-glass:hover {
+  background: rgba(255, 255, 255, 0.09) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #fff !important;
+}
 

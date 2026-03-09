@@ -160,7 +160,7 @@ const AdminDashboard = () => {
   ];
 
   return (
-    <div className="min-h-screen pt-8" style={{ background: "var(--bg-primary)" }}>
+    <div className="min-h-[calc(100vh-3.5rem)] pt-8" style={{ background: "var(--bg-primary)" }}>
       <div className="section-container pb-20">
 
         {/* ── Page Header ──────────────────────────────────────────── */}

@@ -72,16 +72,19 @@ const Navbar = () => {
   return (
     <>
       <nav
-        className="sticky top-0 z-50 w-full rounded-b-2xl"
+        className="fixed top-0 left-0 right-0 z-50 w-full"
         style={{
-          background:
-            "linear-gradient(to right, rgba(124,58,237,0.18) 0%, var(--navbar-bg) 25%, var(--navbar-bg) 75%, rgba(124, 58, 237, 0.18) 100%)",
-          backdropFilter: "blur(14px)",
-          WebkitBackdropFilter: "blur(14px)",
-          borderBottom: "1px solid rgba(124,58,237,0.12)",
+          background: "transparent",
         }}
       >
-        <div className="max-w-8xl mx-auto px-6 lg:px-12 flex items-center justify-between h-14">
+        {/* Subtle top gradient for text legibility over hero — invisible on non-hero pages */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: "linear-gradient(to bottom, rgba(0,0,0,0.52) 0%, rgba(0,0,0,0.18) 60%, transparent 100%)",
+          }}
+        />
+        <div className="relative z-10 max-w-8xl mx-auto px-6 lg:px-12 flex items-center justify-between h-14">
 
           {/* ── Logo ──────────────────────────────────────── */}
           <Link
@@ -89,27 +92,38 @@ const Navbar = () => {
             className="flex items-center gap-2 flex-shrink-0"
             style={{ textDecoration: "none" }}
           >
-            <RiFilmLine size={18} style={{ color: "var(--accent)" }} />
+            {/* <RiFilmLine size={18} style={{ color: "var(--accent)" }} /> */}
             <span
-              className="text-sm font-semibold tracking-tight"
-              style={{ color: "var(--text-primary)" }}
+              className="text-md font-semibold tracking-tight"
+              style={{ color: "#fff", textShadow: "0 1px 4px rgba(0,0,0,0.5)" }}
             >
-              MoviesFreak
+              Movies Freak
             </span>
           </Link>
 
           {/* ── Nav Links (Desktop Only) ────────────────────── */}
-          <div className="hidden lg:flex items-center gap-1">
+          <div className="hidden lg:flex items-center gap-2.5">
             {visibleLinks.map(({ to, label }) => (
               <NavLink
                 key={to}
                 to={to}
+                className="relative nav-link-glass px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200"
                 style={({ isActive }) => ({
-                  color: isActive ? "var(--accent)" : "var(--text-secondary)",
+                  color: isActive ? "#fff" : "rgba(255,255,255,0.72)",
                   textDecoration: "none",
                   fontWeight: isActive ? 600 : 400,
+                  background: isActive
+                    ? "rgba(255,255,255,0.14)"
+                    : "transparent",
+                  backdropFilter: isActive ? "blur(14px)" : "none",
+                  WebkitBackdropFilter: isActive ? "blur(14px)" : "none",
+                  border: isActive
+                    ? "1px solid rgba(255,255,255,0.18)"
+                    : "1px solid transparent",
+                  boxShadow: isActive
+                    ? "inset 0 1px 0 rgba(255,255,255,0.1), 0 2px 12px rgba(0,0,0,0.18)"
+                    : "none",
                 })}
-                className="px-3 py-1.5 rounded-lg text-sm transition-colors duration-150 hover:opacity-80"
               >
                 {label}
               </NavLink>
@@ -117,7 +131,7 @@ const Navbar = () => {
           </div>
 
           {/* ── Right: Search + Theme + Avatar ─────────────────────── */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <SearchBar />
 
             {/* Theme toggle */}
@@ -125,9 +139,11 @@ const Navbar = () => {
               onClick={toggleTheme}
               className="group flex items-center justify-center w-8 h-8 rounded-full cursor-pointer transition-all duration-200 active:scale-95"
               style={{
-                background: "var(--bg-hover)",
-                border: "1px solid var(--border)",
-                color: "var(--text-secondary)",
+                background: "rgba(255,255,255,0.1)",
+                backdropFilter: "blur(10px)",
+                WebkitBackdropFilter: "blur(10px)",
+                border: "1px solid rgba(255,255,255,0.15)",
+                color: "rgba(255,255,255,0.8)",
               }}
               aria-label="Toggle theme"
             >
@@ -192,7 +208,7 @@ const Navbar = () => {
 
       {/* ── Mobile Bottom Navigation ─────────────────────── */}
       <div 
-        className="lg:hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-[60] flex items-center justify-around gap-1 px-4 h-11 rounded-2xl w-[94vw] max-w-sm"
+        className="lg:hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-[60] flex items-center justify-around gap-1 px-3 h-11 rounded-2xl w-[96vw] max-w-md"
         style={{
           background: "rgba(15, 15, 15, 0.82)",
           backdropFilter: "blur(20px)",
@@ -201,18 +217,18 @@ const Navbar = () => {
           boxShadow: "0 10px 40px rgba(0,0,0,0.5)"
         }}
       >
-        {visibleLinks.filter(link => ["Home", "Search", "Favorites", "Collection"].includes(link.label)).map(({ to, label }) => (
+        {visibleLinks.filter(link => ["Home", "Search", "Favorites", "Watchlist", "History", "Collection"].includes(link.label)).map(({ to, label }) => (
           <NavLink
             key={to}
             to={to}
-            className="flex items-center justify-center px-2 h-full rounded-xl transition-all duration-300 flex-1"
+            className="flex items-center justify-center px-1.5 h-full rounded-xl transition-all duration-300 flex-1"
             style={({ isActive }) => ({
               color: isActive ? "#fff" : "rgba(255,255,255,0.45)",
               background: isActive ? "var(--accent)" : "transparent",
               textDecoration: "none",
             })}
           >
-            <span className="text-[9px] font-black uppercase tracking-widest">
+            <span className="text-[8px] font-black uppercase tracking-widest text-center">
               {label}
             </span>
           </NavLink>

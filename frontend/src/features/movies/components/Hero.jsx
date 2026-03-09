@@ -52,22 +52,25 @@ const TrailerModal = ({ videoKey, onClose }) => (
 const Hero = ({ movies = [], isDark = true }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [trailerKey, setTrailerKey] = useState(null);
+  const [trailerOpen, setTrailerOpen] = useState(false);
   const [trailerLoading, setTrailerLoading] = useState(false);
   const trailerCache = useRef({});
   const navigate = useNavigate();
   const count = movies.length;
 
-  // Auto-rotate
+  // Auto-rotate — paused while trailer modal is open
   useEffect(() => {
-    if (count <= 1) return;
+    if (count <= 1 || trailerOpen) return;
     const timer = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % count);
     }, INTERVAL_MS);
     return () => clearInterval(timer);
-  }, [count]);
+  }, [count, trailerOpen]);
 
-  // Reset trailer when slide changes
-  useEffect(() => { setTrailerKey(null); }, [activeIndex]);
+  // Reset trailer only when slide changes AND no trailer is open
+  useEffect(() => {
+    if (!trailerOpen) setTrailerKey(null);
+  }, [activeIndex, trailerOpen]);
 
   const goTo = useCallback((i) => setActiveIndex(i), []);
 
@@ -79,6 +82,7 @@ const Hero = ({ movies = [], isDark = true }) => {
     // Use cached key if available
     if (trailerCache.current[cacheKey]) {
       setTrailerKey(trailerCache.current[cacheKey]);
+      setTrailerOpen(true);
       return;
     }
 
@@ -91,6 +95,7 @@ const Hero = ({ movies = [], isDark = true }) => {
       if (trailer?.key) {
         trailerCache.current[cacheKey] = trailer.key;
         setTrailerKey(trailer.key);
+        setTrailerOpen(true);
       } else {
         // No trailer — navigate to detail page instead
         navigate(`/${mediaType}/${movie.id}`);
@@ -100,6 +105,11 @@ const Hero = ({ movies = [], isDark = true }) => {
     } finally {
       setTrailerLoading(false);
     }
+  };
+
+  const handleCloseTrailer = () => {
+    setTrailerKey(null);
+    setTrailerOpen(false);
   };
 
   if (count === 0) return <div className="h-[75vh] md:h-[85vh]" />;
@@ -113,11 +123,11 @@ const Hero = ({ movies = [], isDark = true }) => {
 
   const overlayBottom = isDark
     ? "linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.2) 30%, transparent 60%)"
-    : "linear-gradient(to top, var(--bg-primary) 0%, rgba(0,0,0,0.08) 40%, transparent 70%)";
+    : "linear-gradient(to top, rgba(0,0,0,0.35) 0%, transparent 60%)";
 
   const overlayBottomFade = isDark
     ? "linear-gradient(to top, var(--bg-primary) 0%, var(--bg-primary) 20%, transparent 100%)"
-    : "linear-gradient(to top, var(--bg-primary) 0%, transparent 100%)";
+    : "linear-gradient(to top, var(--bg-primary) 0%, var(--bg-primary) 5%, transparent 15%)";
 
   const overlayTop = isDark
     ? "linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, transparent 100%)"
@@ -125,10 +135,10 @@ const Hero = ({ movies = [], isDark = true }) => {
 
   return (
     <>
-      <div className="relative w-full h-[75vh] md:h-[85vh] overflow-hidden">
+      <div className="relative w-full h-[75vh] xl:h-[85vh] overflow-hidden">
 
-        {/* Mobile: portrait poster */}
-        <div className="block md:hidden absolute inset-0">
+        {/* Mobile + Tablet: portrait poster */}
+        <div className="block xl:hidden absolute inset-0">
           {movies.map((movie, i) => (
             <img
               key={`mob-${movie.id}`}
@@ -146,7 +156,7 @@ const Hero = ({ movies = [], isDark = true }) => {
         </div>
 
         {/* Desktop: landscape backdrop */}
-        <div className="hidden md:block absolute inset-0">
+        <div className="hidden xl:block absolute inset-0">
           {movies.map((movie, i) => (
             <img
               key={`dsk-${movie.id}`}
@@ -257,8 +267,8 @@ const Hero = ({ movies = [], isDark = true }) => {
       </div>
 
       {/* Trailer Modal */}
-      {trailerKey && (
-        <TrailerModal videoKey={trailerKey} onClose={() => setTrailerKey(null)} />
+      {trailerKey && trailerOpen && (
+        <TrailerModal videoKey={trailerKey} onClose={handleCloseTrailer} />
       )}
     </>
   );

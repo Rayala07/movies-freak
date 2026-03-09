@@ -33,13 +33,15 @@ const HomePage = () => {
     popularAll, popularMovies, popularTV, sectionsLoading,
   } = useSelector((state) => state.movies);
 
-  // Detect theme live
-  const [isDark, setIsDark] = useState(() => !document.documentElement.classList.contains("light"));
+  // Detect theme live — theme system uses data-theme attribute, NOT a class
+  const [isDark, setIsDark] = useState(
+    () => document.documentElement.getAttribute("data-theme") !== "light"
+  );
   useEffect(() => {
     const observer = new MutationObserver(() => {
-      setIsDark(!document.documentElement.classList.contains("light"));
+      setIsDark(document.documentElement.getAttribute("data-theme") !== "light");
     });
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
     return () => observer.disconnect();
   }, []);
 

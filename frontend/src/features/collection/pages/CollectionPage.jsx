@@ -27,7 +27,7 @@ const CollectionPage = () => {
   }, [dispatch]);
 
   return (
-    <div className="min-h-screen pt-12" style={{ background: "var(--bg-primary)" }}>
+    <div className="min-h-[calc(100vh-3.5rem)] pt-12" style={{ background: "var(--bg-primary)" }}>
       <div className="section-container pb-20">
 
         {/* ── Header ─────────────────────────────────────────────────── */}
@@ -40,11 +40,16 @@ const CollectionPage = () => {
               >
                 MoviesFreak Collection
               </h1>
-              <p className="text-sm" style={{ color: "var(--text-muted)" }}>
-                {moviesLoading
-                  ? "Loading…"
-                  : `${totalMovies} ${totalMovies === 1 ? "title" : "titles"} curated by our team`}
-              </p>
+              <div className="text-sm">
+                <p style={{ color: "var(--text-muted)" }}>
+                  {moviesLoading
+                    ? "Loading…"
+                    : `${totalMovies} ${totalMovies === 1 ? "title" : "titles"} curated by our team`}
+                </p>
+                <p className="mt-1 font-medium" style={{ color: "var(--text-highlighted)" }}>
+                  Check out the must watch recommendations by the Developer.
+                </p>
+              </div>
             </div>
             <div
               className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold"
