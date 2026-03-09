@@ -144,7 +144,7 @@ const movieSlice = createSlice({
       })
       .addCase(fetchTrendingHeroes.fulfilled, (state, action) => {
         state.heroLoading = false;
-        state.heroMovies = action.payload;
+        state.heroMovies = action.payload || [];
       })
       .addCase(fetchTrendingHeroes.rejected, (state, action) => {
         state.heroLoading = false;
@@ -156,9 +156,10 @@ const movieSlice = createSlice({
       })
       .addCase(fetchDiscoveryMovies.fulfilled, (state, action) => {
         state.loading = false;
-        state.discoveryMovies = [...state.discoveryMovies, ...action.payload.results];
-        state.page = action.payload.page + 1;
-        state.hasMore = action.payload.hasMore;
+        const results = action.payload?.results || [];
+        state.discoveryMovies = [...state.discoveryMovies, ...results];
+        state.page = (action.payload?.page || state.page) + 1;
+        state.hasMore = action.payload?.hasMore ?? state.hasMore;
       })
       .addCase(fetchDiscoveryMovies.rejected, (state, action) => {
         state.loading = false;

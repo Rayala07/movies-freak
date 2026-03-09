@@ -58,7 +58,7 @@ const favoriteSlice = createSlice({
       })
       .addCase(fetchFavorites.fulfilled, (state, action) => {
         state.loading = false;
-        state.items = action.payload;
+        state.items = action.payload || [];
       })
       .addCase(fetchFavorites.rejected, (state, action) => {
         state.loading = false;
@@ -66,7 +66,9 @@ const favoriteSlice = createSlice({
       })
       // addFavorite
       .addCase(addFavorite.fulfilled, (state, action) => {
-        state.items.unshift(action.payload);
+        if (action.payload) {
+          state.items.unshift(action.payload);
+        }
       })
       // removeFavorite
       .addCase(removeFavorite.fulfilled, (state, action) => {

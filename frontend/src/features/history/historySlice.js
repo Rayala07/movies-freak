@@ -69,7 +69,7 @@ const historySlice = createSlice({
       })
       .addCase(fetchHistory.fulfilled, (state, action) => {
         state.loading = false;
-        state.items = action.payload;
+        state.items = action.payload || [];
       })
       .addCase(fetchHistory.rejected, (state, action) => {
         state.loading = false;
@@ -77,7 +77,9 @@ const historySlice = createSlice({
       })
       // addToHistory
       .addCase(addToHistory.fulfilled, (state, action) => {
-        state.items.unshift(action.payload);
+        if (action.payload) {
+          state.items.unshift(action.payload);
+        }
       })
       // removeFromHistory — uses MongoDB _id
       .addCase(removeFromHistory.fulfilled, (state, action) => {

@@ -25,3 +25,12 @@ services:
         sync: false
       - key: CLIENT_URL
         sync: false
+      - key: VITE_TMDB_READ_ACCESS_TOKEN
+        sync: false
+      - key: VITE_API_BASE_URL
+        value: ""
+      - key: VITE_TMDB_BASE_URL
+        value: https://api.themoviedb.org/3
+      - key: VITE_TMDB_IMAGE_BASE
+        value: https://image.tmdb.org/t/p/w500
+

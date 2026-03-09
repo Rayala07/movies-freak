@@ -58,7 +58,7 @@ const watchlistSlice = createSlice({
       })
       .addCase(fetchWatchlist.fulfilled, (state, action) => {
         state.loading = false;
-        state.items = action.payload;
+        state.items = action.payload || [];
       })
       .addCase(fetchWatchlist.rejected, (state, action) => {
         state.loading = false;
@@ -66,7 +66,9 @@ const watchlistSlice = createSlice({
       })
       // addToWatchlist
       .addCase(addToWatchlist.fulfilled, (state, action) => {
-        state.items.unshift(action.payload);
+        if (action.payload) {
+          state.items.unshift(action.payload);
+        }
       })
       // removeFromWatchlist
       .addCase(removeFromWatchlist.fulfilled, (state, action) => {

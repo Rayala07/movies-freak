@@ -139,9 +139,9 @@ const adminSlice = createSlice({
       })
       .addCase(fetchAdminMovies.fulfilled, (state, action) => {
         state.moviesLoading = false;
-        state.movies = action.payload.movies;
-        state.totalMovies = action.payload.totalMovies;
-        state.totalPages = action.payload.totalPages;
+        state.movies = action.payload?.movies || [];
+        state.totalMovies = action.payload?.totalMovies || 0;
+        state.totalPages = action.payload?.totalPages || 1;
       })
       .addCase(fetchAdminMovies.rejected, (state, action) => {
         state.moviesLoading = false;
@@ -150,12 +150,15 @@ const adminSlice = createSlice({
 
       // createMovie
       .addCase(createMovie.fulfilled, (state, action) => {
-        state.movies.unshift(action.payload);
-        state.totalMovies += 1;
+        if (action.payload) {
+          state.movies.unshift(action.payload);
+          state.totalMovies += 1;
+        }
       })
 
       // updateMovie
       .addCase(updateMovie.fulfilled, (state, action) => {
+        if (!action.payload) return;
         const idx = state.movies.findIndex((m) => m._id === action.payload._id);
         if (idx !== -1) state.movies[idx] = action.payload;
       })
@@ -173,7 +176,7 @@ const adminSlice = createSlice({
       })
       .addCase(fetchUsers.fulfilled, (state, action) => {
         state.usersLoading = false;
-        state.users = action.payload;
+        state.users = action.payload || [];
       })
       .addCase(fetchUsers.rejected, (state, action) => {
         state.usersLoading = false;
@@ -182,6 +185,7 @@ const adminSlice = createSlice({
 
       // toggleBanUser — backend returns updated user object
       .addCase(toggleBanUser.fulfilled, (state, action) => {
+        if (!action.payload) return;
         const idx = state.users.findIndex((u) => u._id === action.payload._id);
         if (idx !== -1) state.users[idx] = { ...state.users[idx], ...action.payload };
       })
@@ -198,7 +202,7 @@ const adminSlice = createSlice({
       })
       .addCase(fetchCollectionDetail.fulfilled, (state, action) => {
         state.collectionDetailLoading = false;
-        state.collectionDetail = action.payload;
+        state.collectionDetail = action.payload || null;
       })
       .addCase(fetchCollectionDetail.rejected, (state, action) => {
         state.collectionDetailLoading = false;

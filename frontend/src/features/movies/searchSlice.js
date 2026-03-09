@@ -59,15 +59,16 @@ const searchSlice = createSlice({
       })
       .addCase(performSearch.fulfilled, (state, action) => {
         state.loading = false;
+        const results = action.payload?.results || [];
         // If it's page 1, replace results. Otherwise, append.
         if (action.meta.arg.page === 1) {
-          state.results = action.payload.results;
+          state.results = results;
         } else {
-          state.results = [...state.results, ...action.payload.results];
+          state.results = [...state.results, ...results];
         }
-        state.page = action.payload.page + 1;
-        state.hasMore = action.payload.hasMore;
-        state.totalResults = action.payload.totalResults;
+        state.page = (action.payload?.page || state.page) + 1;
+        state.hasMore = action.payload?.hasMore ?? state.hasMore;
+        state.totalResults = action.payload?.totalResults || 0;
       })
       .addCase(performSearch.rejected, (state, action) => {
         state.loading = false;
