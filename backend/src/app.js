@@ -31,10 +31,19 @@ const app = express();
  */
 app.use(
   helmet({
+    // CRITICAL: Disable Cross-Origin-Embedder-Policy.
+    // Helmet enables "require-corp" by default which blocks YouTube's player
+    // because YouTube doesn't send Cross-Origin-Resource-Policy headers.
+    crossOriginEmbedderPolicy: false,
+
+    // Send referrer to YouTube so it can validate the embed origin.
+    // Helmet defaults to "no-referrer" which breaks YouTube embeds.
+    referrerPolicy: { policy: "strict-origin-when-cross-origin" },
+
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
-        // API calls: our backend + TMDB + Cloudinary uploads
+        // API calls: our backend + TMDB + Cloudinary
         connectSrc: [
           "'self'",
           "https://api.themoviedb.org",
@@ -52,20 +61,20 @@ app.use(
           "https://i.ytimg.com",
           "https://img.youtube.com",
         ],
-        // YouTube iframes for trailers
-        // child-src is needed for Firefox/Safari as fallback to frame-src
+        // YouTube iframes (standard + nocookie privacy-enhanced mode)
         frameSrc: [
           "https://www.youtube.com",
           "https://youtube.com",
           "https://www.youtube-nocookie.com",
         ],
+        // child-src = Firefox/Safari fallback for frame-src
         childSrc: [
           "https://www.youtube.com",
           "https://youtube.com",
           "https://www.youtube-nocookie.com",
           "blob:",
         ],
-        // Vite production build uses inline/eval scripts; YouTube player uses eval()
+        // YouTube player JS loads from these domains
         scriptSrc: [
           "'self'",
           "'unsafe-inline'",
@@ -73,17 +82,15 @@ app.use(
           "https://www.youtube.com",
           "https://s.ytimg.com",
         ],
-        // Tailwind inline styles + Google Fonts
         styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
         fontSrc: ["'self'", "https://fonts.gstatic.com", "data:"],
-        // YouTube player streams media
+        // YouTube streams via googlevideo.com
         mediaSrc: [
           "'self'",
-          "https://www.youtube.com",
-          "https://rr*.googlevideo.com",
           "blob:",
+          "https://www.youtube.com",
+          "https://googlevideo.com",
         ],
-        // Allow YouTube's player to use workers
         workerSrc: ["'self'", "blob:"],
       },
     },
