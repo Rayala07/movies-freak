@@ -34,13 +34,14 @@ app.use(
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
-        // API calls: our backend + TMDB
+        // API calls: our backend + TMDB + Cloudinary uploads
         connectSrc: [
           "'self'",
           "https://api.themoviedb.org",
           "https://res.cloudinary.com",
+          "https://api.cloudinary.com",
         ],
-        // Images: TMDB CDN, Cloudinary, data URIs (base64 placeholders)
+        // Images: TMDB CDN, Cloudinary, data URIs, YouTube thumbnails
         imgSrc: [
           "'self'",
           "data:",
@@ -49,19 +50,41 @@ app.use(
           "https://res.cloudinary.com",
           "https://www.youtube.com",
           "https://i.ytimg.com",
+          "https://img.youtube.com",
         ],
         // YouTube iframes for trailers
+        // child-src is needed for Firefox/Safari as fallback to frame-src
         frameSrc: [
           "https://www.youtube.com",
           "https://youtube.com",
+          "https://www.youtube-nocookie.com",
         ],
-        // Vite production build uses inline scripts
-        scriptSrc: ["'self'", "'unsafe-inline'"],
-        // Tailwind/inline styles + Google Fonts
+        childSrc: [
+          "https://www.youtube.com",
+          "https://youtube.com",
+          "https://www.youtube-nocookie.com",
+          "blob:",
+        ],
+        // Vite production build uses inline/eval scripts; YouTube player uses eval()
+        scriptSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          "'unsafe-eval'",
+          "https://www.youtube.com",
+          "https://s.ytimg.com",
+        ],
+        // Tailwind inline styles + Google Fonts
         styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-        fontSrc: ["'self'", "https://fonts.gstatic.com"],
-        // Required for YouTube embeds
-        mediaSrc: ["'self'", "https://www.youtube.com"],
+        fontSrc: ["'self'", "https://fonts.gstatic.com", "data:"],
+        // YouTube player streams media
+        mediaSrc: [
+          "'self'",
+          "https://www.youtube.com",
+          "https://rr*.googlevideo.com",
+          "blob:",
+        ],
+        // Allow YouTube's player to use workers
+        workerSrc: ["'self'", "blob:"],
       },
     },
   })
