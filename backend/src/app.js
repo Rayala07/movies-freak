@@ -13,6 +13,7 @@ const favoriteRoutes = require("./routes/favorite.routes");
 const watchHistoryRoutes = require("./routes/watchHistory.routes");
 const watchlistRoutes = require("./routes/watchlist.routes");
 const userRoutes = require("./routes/user.routes");
+const aiRoutes = require("./routes/ai.routes");
 
 // Global error handler (mounted after all routes)
 const { errorHandler } = require("./middleware/error.middleware");
@@ -151,12 +152,31 @@ app.use(cookieParser());
 
 
 /**
+ * Security — AI Rate Limiting
+ * ----------------------------
+ * Stricter limit for AI endpoints because each request makes an external
+ * Gemini API call. 20 per 15 min prevents abuse without blocking normal use.
+ */
+const aiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 20,                   // max 20 AI requests per IP per window
+  message: {
+    success: false,
+    message: "Too many AI requests. Please wait a few minutes before trying again.",
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+/**
  * API Routes
  * ----------
  * Auth routes get the stricter rate limiter.
+ * AI routes get a dedicated limiter (20/15min — protects Gemini quota).
  * All others use the general limiter.
  */
 app.use("/api/auth", authLimiter, authRoutes);
+app.use("/api/ai", aiLimiter, aiRoutes);
 app.use("/api/movies", generalLimiter, movieRoutes);
 app.use("/api/favorites", generalLimiter, favoriteRoutes);
 app.use("/api/history", generalLimiter, watchHistoryRoutes);

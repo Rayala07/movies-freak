@@ -11,6 +11,7 @@ import {
   RiSunLine,
   RiMoonLine,
   RiLogoutBoxLine,
+  RiSparklingFill,
 } from "@remixicon/react";
 import useAuth from "../../features/auth/hooks/useAuth";
 import useTheme from "../hooks/useTheme";
@@ -33,6 +34,7 @@ const getInitials = (name = "") => {
  */
 const NAV_LINKS = [
   { to: "/home",       label: "Home",       icon: RiHomeLine    },
+  { to: "/discover",   label: "Discover",   icon: RiSparklingFill },
   { to: "/search",     label: "Search",     icon: RiSearchLine  },
   { to: "/favorites",  label: "Favorites",  icon: RiHeartLine   },
   { to: "/watchlist",  label: "Watchlist",  icon: RiBookmarkLine },

@@ -33,4 +33,6 @@ services:
         value: https://api.themoviedb.org/3
       - key: VITE_TMDB_IMAGE_BASE
         value: https://image.tmdb.org/t/p/w500
+      - key: GEMINI_API_KEY
+        sync: false
 
