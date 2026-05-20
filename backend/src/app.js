@@ -152,21 +152,12 @@ app.use(cookieParser());
 
 
 /**
- * Security — AI Rate Limiting
- * ----------------------------
- * Stricter limit for AI endpoints because each request makes an external
- * Gemini API call. 20 per 15 min prevents abuse without blocking normal use.
+ * Note: The AI rate limiter is defined and applied per-route inside
+ * ai.routes.js — only on the two endpoints that actually call Gemini
+ * (POST /discover and POST /sessions/:id/discover).
+ * Session management routes (create room, join, poll) are plain DB
+ * operations and must NOT be rate-limited with the AI quota.
  */
-const aiLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 20,                   // max 20 AI requests per IP per window
-  message: {
-    success: false,
-    message: "Too many AI requests. Please wait a few minutes before trying again.",
-  },
-  standardHeaders: true,
-  legacyHeaders: false,
-});
 
 /**
  * API Routes
@@ -176,7 +167,7 @@ const aiLimiter = rateLimit({
  * All others use the general limiter.
  */
 app.use("/api/auth", authLimiter, authRoutes);
-app.use("/api/ai", aiLimiter, aiRoutes);
+app.use("/api/ai", aiRoutes); // aiLimiter is applied per-route inside ai.routes.js
 app.use("/api/movies", generalLimiter, movieRoutes);
 app.use("/api/favorites", generalLimiter, favoriteRoutes);
 app.use("/api/history", generalLimiter, watchHistoryRoutes);

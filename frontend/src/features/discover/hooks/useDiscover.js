@@ -2,7 +2,6 @@ import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import {
   fetchAIDiscovery,
-  fetchGroupDiscovery,
   clearDiscoverError,
   clearDiscoverState,
   addUserMessage,
@@ -12,14 +11,13 @@ import {
  * useDiscover Hook (Layer 2)
  * --------------------------
  * Bridge between UI components and Redux state for AI discovery.
- * Handles both Solo and Group mode actions.
  */
 const useDiscover = () => {
   const dispatch = useDispatch();
   const state = useSelector((state) => state.discover);
 
   /**
-   * Solo mode — send a message to the AI.
+   * Send a message to the AI.
    * Appends user message to history, then dispatches the thunk.
    */
   const sendMessage = async (text) => {
@@ -40,18 +38,7 @@ const useDiscover = () => {
   };
 
   /**
-   * Group mode — trigger reconciliation for a completed session.
-   * @param {string} sessionId - The session ID to reconcile
-   */
-  const sendGroupDiscover = async (sessionId) => {
-    const result = await dispatch(fetchGroupDiscovery({ sessionId }));
-    if (fetchGroupDiscovery.rejected.match(result)) {
-      toast.error(result.payload || "AI failed to reconcile group preferences.");
-    }
-  };
-
-  /**
-   * Reset the entire discover state (called on unmount or mode switch).
+   * Reset the entire discover state (called on unmount).
    */
   const resetDiscover = () => {
     dispatch(clearDiscoverState());
@@ -60,7 +47,6 @@ const useDiscover = () => {
   return {
     ...state,
     sendMessage,
-    sendGroupDiscover,
     resetDiscover,
   };
 };
