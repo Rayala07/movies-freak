@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: moviesfreak
+    name: kineo
     runtime: node
     plan: free
     rootDir: .

@@ -10,7 +10,7 @@ import {
 } from "@remixicon/react";
 
 /**
- * CollectionDetailPage — MoviesFreak Collection
+ * CollectionDetailPage — Kineo Collection
  * -----------------------------------------------
  * Clean premium layout: full-width blurred poster background + card UI.
  * Data path: adminService.getMovieById → adminSlice.collectionDetail
@@ -188,7 +188,7 @@ const CollectionDetailPage = () => {
                 color: "var(--accent)",
               }}
             >
-              MoviesFreak Collection
+              Kineo Collection
             </div>
 
             {/* Title */}

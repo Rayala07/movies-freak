@@ -1,9 +1,9 @@
-# 🎬 Movies Freak
+# 🎬 Kineo
 
 ## 🌐 Live Website
 
 **Live URL:**  
-[MoviesFreak.com](https://moviesfreak.onrender.com)
+[Kineo.com](https://kineo.onrender.com)
 
 ---
 
@@ -20,7 +20,7 @@ Password: test123
 
 # 📖 About the Project
 
-**Movies Freak** is a full-stack movie discovery platform where users can explore movies and TV shows, search for content in real time, watch trailers, and manage their personal movie preferences.
+**Kineo** is a full-stack movie discovery platform where users can explore movies and TV shows, search for content in real time, watch trailers, and manage their personal movie preferences.
 
 The platform integrates external movie data APIs and provides a custom backend to manage user authentication and personalized movie interactions such as favorites or watchlists.
 
@@ -59,7 +59,7 @@ This project demonstrates the implementation of a **modern full-stack architectu
 # 🏗️ Project Structure
 
 ```
-movies-freak
+kineo
 │
 ├── frontend        # React frontend application
 ├── backend         # Node.js / Express backend APIs

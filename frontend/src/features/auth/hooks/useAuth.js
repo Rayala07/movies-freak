@@ -60,7 +60,7 @@ const useAuth = () => {
     const result = await dispatch(registerUser(userData));
 
     if (registerUser.fulfilled.match(result)) {
-      toast.success(`Welcome to MoviesFreak, ${result.payload.name}!`);
+      toast.success(`Welcome to Kineo, ${result.payload.name}!`);
       navigate("/home");
     } else {
       toast.error(result.payload || "Registration failed.");

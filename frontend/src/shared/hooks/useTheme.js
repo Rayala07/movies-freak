@@ -17,14 +17,14 @@ const useTheme = () => {
   const [isChanging, setIsChanging] = useState(false);
   // Read from localStorage on first load, default to "dark"
   const [theme, setTheme] = useState(() => {
-    return localStorage.getItem("moviesfreak-theme") || "dark";
+    return localStorage.getItem("kineo-theme") || "dark";
   });
 
   useEffect(() => {
     // Apply the theme to the root <html> element
     document.documentElement.setAttribute("data-theme", theme);
     // Persist choice
-    localStorage.setItem("moviesfreak-theme", theme);
+    localStorage.setItem("kineo-theme", theme);
   }, [theme]);
 
   const toggleTheme = () => {

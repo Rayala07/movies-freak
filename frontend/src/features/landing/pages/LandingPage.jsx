@@ -36,7 +36,7 @@ const LandingPage = () => {
           <div className="flex items-center gap-2.5">
             <RiFilmLine size={20} style={{ color: "var(--accent)" }} />
             <span className="text-base font-semibold tracking-tight">
-              MoviesFreak
+              Kineo
             </span>
           </div>
 

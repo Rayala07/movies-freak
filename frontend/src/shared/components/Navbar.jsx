@@ -97,7 +97,7 @@ const Navbar = () => {
               className="text-md font-semibold tracking-tight"
               style={{ color: "#fff", textShadow: "0 1px 4px rgba(0,0,0,0.5)" }}
             >
-              Movies Freak
+              Kineo
             </span>
           </Link>
 

@@ -5,7 +5,7 @@ import { fetchAdminMovies } from "../../admin/adminSlice";
 import { RiInboxLine } from "@remixicon/react";
 
 /**
- * CollectionPage — MoviesFreak Collection
+ * CollectionPage — Kineo Collection
  * ----------------------------------------
  * Renders movies added by the admin from the backend DB (/api/movies).
  * Data path: adminService → adminSlice → this page.
@@ -38,7 +38,7 @@ const CollectionPage = () => {
                 className="text-2xl md:text-3xl font-bold mb-1"
                 style={{ color: "var(--text-primary)" }}
               >
-                MoviesFreak Collection
+                Kineo Collection
               </h1>
               <div className="text-sm">
                 <p style={{ color: "var(--text-muted)" }}>

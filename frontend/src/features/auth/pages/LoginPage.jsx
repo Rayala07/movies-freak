@@ -33,7 +33,7 @@ const LoginPage = () => {
         <header className="animate-in flex items-center justify-between py-6">
           <Link to="/" className="flex items-center gap-2.5" style={{ textDecoration: "none" }}>
             <RiFilmLine size={20} style={{ color: "var(--accent)" }} />
-            <span className="text-base font-semibold tracking-tight">MoviesFreak</span>
+            <span className="text-base font-semibold tracking-tight">Kineo</span>
           </Link>
           <button
             onClick={toggleTheme}
@@ -66,7 +66,7 @@ const LoginPage = () => {
                   Welcome back
                 </h1>
                 <p className="text-sm" style={{ color: "var(--text-secondary)" }}>
-                  Sign in to your MoviesFreak account
+                  Sign in to your Kineo account
                 </p>
               </div>
 

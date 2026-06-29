@@ -18,7 +18,7 @@ const { nanoid } = require("nanoid");
  * @param {String} folder  - The Cloudinary folder to upload into
  * @returns {Promise}      - Resolves with { secure_url, public_id }
  */
-const uploadToCloudinary = (buffer, folder = "moviesfreak/posters") => {
+const uploadToCloudinary = (buffer, folder = "kineo/posters") => {
   return new Promise((resolve, reject) => {
     const uploadStream = cloudinary.uploader.upload_stream(
       {
@@ -50,8 +50,8 @@ const uploadToCloudinary = (buffer, folder = "moviesfreak/posters") => {
  * Extracts the Cloudinary public_id from a stored Cloudinary URL.
  * Needed when we want to delete an old image before uploading a new one.
  *
- * Example URL: https://res.cloudinary.com/cloud/image/upload/v123/moviesfreak/posters/abc.jpg
- * Extracted:   moviesfreak/posters/abc
+ * Example URL: https://res.cloudinary.com/cloud/image/upload/v123/kineo/posters/abc.jpg
+ * Extracted:   kineo/posters/abc
  *
  * @param {String} url - The full Cloudinary secure URL
  * @returns {String}   - The public_id (folder/filename without extension)
