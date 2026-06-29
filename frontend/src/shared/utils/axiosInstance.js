@@ -13,7 +13,6 @@ import axios from "axios";
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
   withCredentials: true,
-  timeout: 60000, // 60s — Gemini + TMDB can take up to ~30s; without this, a hanging request keeps groupLoading=true forever
   headers: {
     "Content-Type": "application/json",
   },

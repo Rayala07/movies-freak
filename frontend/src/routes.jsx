@@ -13,8 +13,6 @@ import HistoryPage from "./features/history/pages/HistoryPage";
 import AdminDashboard from "./features/admin/pages/AdminDashboard";
 import CollectionPage from "./features/collection/pages/CollectionPage";
 import CollectionDetailPage from "./features/collection/pages/CollectionDetailPage";
-import DiscoverPage from "./features/discover/pages/DiscoverPage";
-import JoinSessionPage from "./features/discover/pages/JoinSessionPage";
 import Layout from "./shared/components/Layout";
 import "./shared/styles/global.css";
 
@@ -44,21 +42,6 @@ export const routes = createBrowserRouter([
         </Layout>
       </ProtectedRoute>
     ),
-  },
-  {
-    path: "/discover",
-    element: (
-      <ProtectedRoute>
-        <Layout>
-          <DiscoverPage />
-        </Layout>
-      </ProtectedRoute>
-    ),
-  },
-  {
-    // Public guest route — no login needed, just a session ID in the URL
-    path: "/discover/:sessionId",
-    element: <JoinSessionPage />,
   },
   {
     path: "/movie/:id",

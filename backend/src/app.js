@@ -13,7 +13,6 @@ const favoriteRoutes = require("./routes/favorite.routes");
 const watchHistoryRoutes = require("./routes/watchHistory.routes");
 const watchlistRoutes = require("./routes/watchlist.routes");
 const userRoutes = require("./routes/user.routes");
-const aiRoutes = require("./routes/ai.routes");
 
 // Global error handler (mounted after all routes)
 const { errorHandler } = require("./middleware/error.middleware");
@@ -152,22 +151,12 @@ app.use(cookieParser());
 
 
 /**
- * Note: The AI rate limiter is defined and applied per-route inside
- * ai.routes.js — only on the two endpoints that actually call Gemini
- * (POST /discover and POST /sessions/:id/discover).
- * Session management routes (create room, join, poll) are plain DB
- * operations and must NOT be rate-limited with the AI quota.
- */
-
-/**
  * API Routes
  * ----------
  * Auth routes get the stricter rate limiter.
- * AI routes get a dedicated limiter (20/15min — protects Gemini quota).
  * All others use the general limiter.
  */
 app.use("/api/auth", authLimiter, authRoutes);
-app.use("/api/ai", aiRoutes); // aiLimiter is applied per-route inside ai.routes.js
 app.use("/api/movies", generalLimiter, movieRoutes);
 app.use("/api/favorites", generalLimiter, favoriteRoutes);
 app.use("/api/history", generalLimiter, watchHistoryRoutes);
