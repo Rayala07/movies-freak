@@ -13,6 +13,7 @@ const favoriteRoutes = require("./routes/favorite.routes");
 const watchHistoryRoutes = require("./routes/watchHistory.routes");
 const watchlistRoutes = require("./routes/watchlist.routes");
 const userRoutes = require("./routes/user.routes");
+const aiRoutes = require("./routes/ai.routes");
 
 // Global error handler (mounted after all routes)
 const { errorHandler } = require("./middleware/error.middleware");
@@ -49,6 +50,7 @@ app.use(
           "https://api.themoviedb.org",
           "https://res.cloudinary.com",
           "https://api.cloudinary.com",
+          "https://integrate.api.nvidia.com",
         ],
         // Images: TMDB CDN, Cloudinary, data URIs, YouTube thumbnails
         imgSrc: [
@@ -162,6 +164,7 @@ app.use("/api/favorites", generalLimiter, favoriteRoutes);
 app.use("/api/history", generalLimiter, watchHistoryRoutes);
 app.use("/api/watchlist", generalLimiter, watchlistRoutes);
 app.use("/api/users", generalLimiter, userRoutes);
+app.use("/api/ai", generalLimiter, aiRoutes);
 
 /**
  * Global Error Handler

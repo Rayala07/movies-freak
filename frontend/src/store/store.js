@@ -6,6 +6,7 @@ import favoriteReducer from "../features/favorites/favoriteSlice";
 import watchlistReducer from "../features/watchlist/watchlistSlice";
 import historyReducer from "../features/history/historySlice";
 import adminReducer from "../features/admin/adminSlice";
+import discoverReducer from "../features/discover/discoverSlice";
 
 /**
  * Redux Store
@@ -25,6 +26,7 @@ const store = configureStore({
     watchlist: watchlistReducer,
     history: historyReducer,
     admin: adminReducer,
+    discover: discoverReducer,
   },
 });
 

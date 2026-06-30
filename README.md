@@ -7,17 +7,6 @@
 
 ---
 
-## 🔐 Test Login Credentials
-
-Use the following credentials to explore the platform, if you do not like to create an account.
-
-```
-Email: test@test.com
-Password: test123
-```
-
----
-
 # 📖 About the Project
 
 **Kineo** is a full-stack movie discovery platform where users can explore movies and TV shows, search for content in real time, watch trailers, and manage their personal movie preferences.

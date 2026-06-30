@@ -11,6 +11,7 @@ import {
   RiSunLine,
   RiMoonLine,
   RiLogoutBoxLine,
+  RiSparklingFill,
 } from "@remixicon/react";
 import useAuth from "../../features/auth/hooks/useAuth";
 import useTheme from "../hooks/useTheme";
@@ -37,6 +38,7 @@ const NAV_LINKS = [
   { to: "/favorites",  label: "Favorites",  icon: RiHeartLine   },
   { to: "/watchlist",  label: "Watchlist",  icon: RiBookmarkLine },
   { to: "/history",    label: "History",    icon: RiTimeLine    },
+  { to: "/discover",   label: "Vibe",       icon: RiSparklingFill },
   { to: "/collection", label: "Collection", icon: null          },
 ];
 

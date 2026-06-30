@@ -13,6 +13,7 @@ import HistoryPage from "./features/history/pages/HistoryPage";
 import AdminDashboard from "./features/admin/pages/AdminDashboard";
 import CollectionPage from "./features/collection/pages/CollectionPage";
 import CollectionDetailPage from "./features/collection/pages/CollectionDetailPage";
+import DiscoverPage from "./features/discover/pages/DiscoverPage";
 import Layout from "./shared/components/Layout";
 import "./shared/styles/global.css";
 
@@ -124,8 +125,16 @@ export const routes = createBrowserRouter([
       </ProtectedRoute>
     ),
   },
-
-  // ── Admin (Navbar via Layout — admin link visible only to admins) ────
+  {
+    path: "/discover",
+    element: (
+      <ProtectedRoute>
+        <Layout>
+          <DiscoverPage />
+        </Layout>
+      </ProtectedRoute>
+    ),
+  },
   {
     path: "/admin",
     element: (
