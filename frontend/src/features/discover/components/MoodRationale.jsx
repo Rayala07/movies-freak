@@ -34,7 +34,7 @@ const MoodRationale = ({ rationale, params }) => {
           size={15}
           style={{ color: "#a78bfa", flexShrink: 0, marginTop: 2 }}
         />
-        <p style={{ margin: 0, fontSize: 13, color: "rgba(255,255,255,0.75)", lineHeight: 1.5 }}>
+        <p style={{ margin: 0, fontSize: 13, color: "var(--text-primary)", lineHeight: 1.5 }}>
           {rationale}
         </p>
       </div>

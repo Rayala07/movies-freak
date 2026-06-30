@@ -32,14 +32,7 @@ const DiscoverPage = () => {
   } = useDiscover();
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "var(--bg-primary)",
-        paddingTop: 80, // account for fixed Navbar
-        paddingBottom: 80,
-      }}
-    >
+    <div>
       {/* ── Page Header ─────────────────────────────────────── */}
       <div style={{ textAlign: "center", padding: "40px 20px 36px" }}>
         <div
@@ -64,7 +57,7 @@ const DiscoverPage = () => {
           style={{
             fontSize: "clamp(28px, 5vw, 48px)",
             fontWeight: 800,
-            color: "#fff",
+            color: "var(--text-primary)",
             letterSpacing: "-0.02em",
             lineHeight: 1.15,
             margin: "0 0 12px",
@@ -85,7 +78,7 @@ const DiscoverPage = () => {
         <p
           style={{
             fontSize: 15,
-            color: "rgba(255,255,255,0.45)",
+            color: "var(--text-secondary)",
             maxWidth: 480,
             margin: "0 auto",
             lineHeight: 1.6,
@@ -114,7 +107,7 @@ const DiscoverPage = () => {
         {isLoading && (
           <div style={{ padding: "0 0 20px" }}>
             <div style={{ textAlign: "center", marginBottom: 28 }}>
-              <p style={{ fontSize: 13, color: "rgba(255,255,255,0.4)", fontStyle: "italic" }}>
+              <p style={{ fontSize: 13, color: "var(--text-secondary)", fontStyle: "italic" }}>
                 ✨ Analysing your mood with Mistral AI...
               </p>
             </div>
@@ -146,7 +139,7 @@ const DiscoverPage = () => {
           <>
             {/* Result count header */}
             <div style={{ maxWidth: 1200, margin: "0 auto 16px" }}>
-              <p style={{ margin: 0, fontSize: 13, color: "rgba(255,255,255,0.4)" }}>
+              <p style={{ margin: 0, fontSize: 13, color: "var(--text-secondary)" }}>
                 {results.length > 0
                   ? `Found ${results.length} movies matching your mood`
                   : "No matches found"}
@@ -163,7 +156,7 @@ const DiscoverPage = () => {
 
         {/* Idle empty state */}
         {status === "idle" && (
-          <div style={{ textAlign: "center", paddingTop: 20, color: "rgba(255,255,255,0.2)", fontSize: 13 }}>
+          <div style={{ textAlign: "center", paddingTop: 20, color: "var(--text-tertiary)", fontSize: 13 }}>
             Your results will appear here
           </div>
         )}

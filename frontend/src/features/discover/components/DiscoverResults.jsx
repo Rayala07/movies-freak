@@ -15,7 +15,7 @@ const DiscoverResults = ({ results }) => {
         style={{
           textAlign: "center",
           padding: "60px 20px",
-          color: "rgba(255,255,255,0.35)",
+          color: "var(--text-muted)",
         }}
       >
         <RiFilmLine size={36} style={{ margin: "0 auto 16px", opacity: 0.4 }} />

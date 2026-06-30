@@ -22,7 +22,7 @@ const ResultsSkeleton = ({ count = 12 }) => (
             width: "100%",
             aspectRatio: "2/3",
             borderRadius: 12,
-            background: "rgba(255,255,255,0.06)",
+            background: "var(--bg-hover)",
           }}
         />
         {/* Title placeholder */}
@@ -31,7 +31,7 @@ const ResultsSkeleton = ({ count = 12 }) => (
             height: 12,
             width: "70%",
             borderRadius: 6,
-            background: "rgba(255,255,255,0.05)",
+            background: "var(--border)",
             marginTop: 10,
           }}
         />
@@ -41,7 +41,7 @@ const ResultsSkeleton = ({ count = 12 }) => (
             height: 10,
             width: "40%",
             borderRadius: 6,
-            background: "rgba(255,255,255,0.04)",
+            background: "var(--border)",
             marginTop: 6,
           }}
         />

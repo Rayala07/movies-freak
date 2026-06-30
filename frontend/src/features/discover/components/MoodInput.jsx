@@ -58,7 +58,7 @@ const MoodInput = ({ value, onChange, onSearch, onClear, isLoading }) => {
         {/* Label row */}
         <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14 }}>
           <RiSparklingFill size={16} style={{ color: "#a78bfa" }} />
-          <span style={{ fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,0.5)", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+          <span style={{ fontSize: 12, fontWeight: 600, color: "var(--text-secondary)", letterSpacing: "0.08em", textTransform: "uppercase" }}>
             Describe your mood
           </span>
         </div>
@@ -78,7 +78,7 @@ const MoodInput = ({ value, onChange, onSearch, onClear, isLoading }) => {
             border: "none",
             outline: "none",
             resize: "none",
-            color: "#fff",
+            color: "var(--text-primary)",
             fontSize: 17,
             fontWeight: 400,
             lineHeight: 1.6,
@@ -89,7 +89,7 @@ const MoodInput = ({ value, onChange, onSearch, onClear, isLoading }) => {
 
         {/* Actions row */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 16, paddingTop: 14, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-          <span style={{ fontSize: 12, color: "rgba(255,255,255,0.3)" }}>
+          <span style={{ fontSize: 12, color: "var(--text-tertiary)" }}>
             Press Enter or click Search
           </span>
 
@@ -97,7 +97,7 @@ const MoodInput = ({ value, onChange, onSearch, onClear, isLoading }) => {
             {value && (
               <button
                 onClick={() => { onChange(""); onClear(); }}
-                style={{ background: "transparent", border: "none", cursor: "pointer", color: "rgba(255,255,255,0.4)", padding: "6px", borderRadius: 8, display: "flex", alignItems: "center" }}
+                style={{ background: "transparent", border: "none", cursor: "pointer", color: "var(--text-secondary)", padding: "6px", borderRadius: 8, display: "flex", alignItems: "center" }}
                 aria-label="Clear"
               >
                 <RiCloseLine size={18} />
@@ -116,7 +116,7 @@ const MoodInput = ({ value, onChange, onSearch, onClear, isLoading }) => {
                   : "linear-gradient(135deg, #7c3aed, #a78bfa)",
                 border: "none",
                 borderRadius: 12,
-                color: isLoading || !value.trim() ? "rgba(255,255,255,0.35)" : "#fff",
+                color: isLoading || !value.trim() ? "var(--text-tertiary)" : "#fff",
                 fontSize: 13,
                 fontWeight: 600,
                 cursor: isLoading || !value.trim() ? "not-allowed" : "pointer",
@@ -152,7 +152,7 @@ const MoodInput = ({ value, onChange, onSearch, onClear, isLoading }) => {
                 background: "rgba(124,58,237,0.12)",
                 border: "1px solid rgba(124,58,237,0.25)",
                 borderRadius: 100,
-                color: "rgba(255,255,255,0.65)",
+                color: "var(--text-secondary)",
                 fontSize: 12,
                 cursor: "pointer",
                 transition: "all 0.18s",
@@ -167,7 +167,7 @@ const MoodInput = ({ value, onChange, onSearch, onClear, isLoading }) => {
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.background = "rgba(124,58,237,0.12)";
-                e.currentTarget.style.color = "rgba(255,255,255,0.65)";
+                e.currentTarget.style.color = "var(--text-secondary)";
               }}
             >
               {s}
