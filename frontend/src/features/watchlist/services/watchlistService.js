@@ -1,7 +1,7 @@
 import axiosInstance from "../../../shared/utils/axiosInstance";
 
 /**
- * Watchlist Service — Layer 4
+ * Watchlist Service - Layer 4
  * ---------------------------
  * All API calls related to the user's watchlist.
  */

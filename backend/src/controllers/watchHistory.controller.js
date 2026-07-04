@@ -16,7 +16,7 @@ const WatchHistory = require("../models/WatchHistory.model");
  *     movieData : { title, poster, rating, releaseDate, overview }
  *   }
  *
- * No duplicate check here — the same movie CAN appear multiple times.
+ * No duplicate check here - the same movie CAN appear multiple times.
  * Every watch session is its own separate log entry.
  * This is how "Continue Watching" / "Recently Watched" works.
  */
@@ -32,7 +32,7 @@ const addToHistory = async (req, res, next) => {
       });
     }
 
-    // Step 2: Validate mediaType — only movie and tv (person cannot be 'watched')
+    // Step 2: Validate mediaType - only movie and tv (person cannot be 'watched')
     if (!["movie", "tv"].includes(mediaType)) {
       return res.status(400).json({
         success: false,
@@ -73,8 +73,8 @@ const addToHistory = async (req, res, next) => {
  * @desc    Get the current user's full watch history
  * @access  Protected
  *
- * Sorted by watchedAt descending — most recently watched appears first.
- * Returns stored movieData snapshots — no TMDB API call needed.
+ * Sorted by watchedAt descending - most recently watched appears first.
+ * Returns stored movieData snapshots - no TMDB API call needed.
  */
 const getHistory = async (req, res, next) => {
   try {

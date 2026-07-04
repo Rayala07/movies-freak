@@ -18,7 +18,7 @@ const upload = require("../middleware/upload.middleware");
  * ------------
  * Base path: /api/movies  (mounted in app.js)
  *
- * ALL routes require a valid login (protectRoute) — no public access.
+ * ALL routes require a valid login (protectRoute) - no public access.
  * Admin-managed movies are visible to ALL logged-in users on the platform.
  * Only admins can create, update, or delete movies.
  *
@@ -37,11 +37,11 @@ const upload = require("../middleware/upload.middleware");
  *   The controller then uploads req.file.buffer to Cloudinary.
  */
 
-// Logged-in user routes — any authenticated user can view
+// Logged-in user routes - any authenticated user can view
 router.get("/", protectRoute, getAllMovies);
 router.get("/:id", protectRoute, getMovieById);
 
-// Admin-only routes — upload.single("poster") runs before the controller
+// Admin-only routes - upload.single("poster") runs before the controller
 router.post("/", protectRoute, adminOnly, upload.single("poster"), createMovie);
 router.put("/:id", protectRoute, adminOnly, upload.single("poster"), updateMovie);
 router.delete("/:id", protectRoute, adminOnly, deleteMovie);

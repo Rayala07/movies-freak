@@ -2,7 +2,7 @@ import MovieCard from "./MovieCard";
 import SkeletonCard from "./SkeletonCard";
 
 /**
- * MovieGrid — Phase F4
+ * MovieGrid - Phase F4
  * -------------------
  * Renders a responsive vertical grid of movies.
  * Features: Infinite scroll sentinel, loading states.
@@ -34,7 +34,7 @@ const MovieGrid = ({ movies, loading, sentinelRef }) => {
         )}
       </div>
 
-      {/* The Sentinel — intersection observer watches this */}
+      {/* The Sentinel - intersection observer watches this */}
       <div ref={sentinelRef} className="h-20 w-full" />
     </div>
   );

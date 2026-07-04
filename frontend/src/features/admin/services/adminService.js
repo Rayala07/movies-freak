@@ -1,7 +1,7 @@
 import axiosInstance from "../../../shared/utils/axiosInstance";
 
 /**
- * Admin Service — Layer 4
+ * Admin Service - Layer 4
  * -----------------------
  * Covers both /api/movies (CRUD) and /api/users (management).
  * POST/PUT use FormData for multipart (Cloudinary poster uploads).
@@ -15,14 +15,14 @@ const adminService = {
     return data;
   },
 
-  /** GET /api/movies/:id — single admin movie by MongoDB _id */
+  /** GET /api/movies/:id - single admin movie by MongoDB _id */
   getMovieById: async (id) => {
     const { data } = await axiosInstance.get(`/api/movies/${id}`);
     return data;
   },
 
   /**
-   * POST /api/movies — multipart/form-data
+   * POST /api/movies - multipart/form-data
    * Fields: title, description, releaseDate, trailerUrl, genre, category, poster (file)
    */
   createMovie: async (formData) => {
@@ -32,7 +32,7 @@ const adminService = {
     return data;
   },
 
-  /** PUT /api/movies/:id — multipart/form-data */
+  /** PUT /api/movies/:id - multipart/form-data */
   updateMovie: async (id, formData) => {
     const { data } = await axiosInstance.put(`/api/movies/${id}`, formData, {
       headers: { "Content-Type": "multipart/form-data" },
@@ -54,7 +54,7 @@ const adminService = {
     return data;
   },
 
-  /** PATCH /api/users/:id/ban — toggles ban/unban */
+  /** PATCH /api/users/:id/ban - toggles ban/unban */
   toggleBan: async (id) => {
     const { data } = await axiosInstance.patch(`/api/users/${id}/ban`);
     return data;

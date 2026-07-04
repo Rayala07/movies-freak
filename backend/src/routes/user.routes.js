@@ -10,7 +10,7 @@ const { adminOnly } = require("../middleware/admin.middleware");
  * -------------------------------------
  * Base path: /api/users  (mounted in app.js)
  *
- * ALL routes require protectRoute + adminOnly — regular users have zero access.
+ * ALL routes require protectRoute + adminOnly - regular users have zero access.
  *
  *   GET    /api/users         → list all users
  *   PATCH  /api/users/:id/ban → toggle ban/unban a user

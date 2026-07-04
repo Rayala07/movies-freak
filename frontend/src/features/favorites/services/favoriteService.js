@@ -1,13 +1,13 @@
 import axiosInstance from "../../../shared/utils/axiosInstance";
 
 /**
- * Favorite Service — Layer 4
+ * Favorite Service - Layer 4
  * --------------------------
  * All API calls related to user favorites.
  * Uses the backend Snapshot Pattern (stores movieData on save).
  */
 const favoriteService = {
-  /** GET /api/favorites — returns all favorites with stored snapshots */
+  /** GET /api/favorites - returns all favorites with stored snapshots */
   getFavorites: async () => {
     const { data } = await axiosInstance.get("/api/favorites");
     return data;

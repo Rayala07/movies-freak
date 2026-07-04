@@ -2,18 +2,18 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import * as authService from "./services/authService";
 
 /**
- * Auth Slice — Layer 3
+ * Auth Slice - Layer 3
  * --------------------
  * Single source of truth for all authentication state.
  *
  * State shape:
- *   currentUser    — full user object from backend ({ _id, name, email, role, isBanned })
- *   isAuthenticated — boolean, true when user has a valid session
- *   loading        — true while any async thunk is pending
- *   error          — last error message string, or null
+ *   currentUser    - full user object from backend ({ _id, name, email, role, isBanned })
+ *   isAuthenticated - boolean, true when user has a valid session
+ *   loading        - true while any async thunk is pending
+ *   error          - last error message string, or null
  *
  * Role checking:
- *   Never check role in components — use isAdmin from useAuth hook instead.
+ *   Never check role in components - use isAdmin from useAuth hook instead.
  *   role comes directly from the backend JWT payload via GET /api/auth/me
  */
 
@@ -85,7 +85,7 @@ const authSlice = createSlice({
     error: null,
   },
   reducers: {
-    // Manual clear — used as fallback if needed
+    // Manual clear - used as fallback if needed
     clearAuth: (state) => {
       state.currentUser = null;
       state.isAuthenticated = false;

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { RiStarFill } from "@remixicon/react";
 
 /**
- * MovieCard — Phase F4
+ * MovieCard - Phase F4
  * -------------------
  * The atomic unit of our discovery grid.
  * Design: Minimal, high-quality lift on hover, clean info.
@@ -39,7 +39,7 @@ const MovieCard = ({ movie }) => {
           loading="lazy"
         />
         
-        {/* Subtle rating badge overlay — top right (Hide for people) */}
+        {/* Subtle rating badge overlay - top right (Hide for people) */}
         {!isPerson && rating && (
           <div 
             className="absolute top-3 right-3 flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-bold backdrop-blur-md" 

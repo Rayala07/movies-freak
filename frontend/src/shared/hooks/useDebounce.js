@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 /**
- * useDebounce — Phase F6
+ * useDebounce - Phase F6
  * ----------------------
  * Custom hook to debounce a value.
  * Useful for limiting API calls while typing.

@@ -79,7 +79,7 @@ const Navbar = () => {
           background: "transparent",
         }}
       >
-        {/* Subtle top gradient for text legibility over hero — invisible on non-hero pages */}
+        {/* Subtle top gradient for text legibility over hero - invisible on non-hero pages */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{

@@ -1,16 +1,16 @@
-const OpenAI = require("openai");
+const Groq = require("groq-sdk");
 
 /**
- * AI Service — Kineo Mood-Based Discovery
+ * AI Service - Kineo Mood-Based Discovery
  * ----------------------------------------
- * Uses NVIDIA's OpenAI-compatible API to run Mistral LLM.
- * The client is initialized with NVIDIA's base URL and your NVIDIA API key.
- * No OpenAI account needed — only your NVIDIA key is used.
+ * LLM: Qwen3-32B via Groq
+ * SDK: groq-sdk (native, no OpenAI wrapper)
+ *
+ * Qwen3 note: The model outputs a <think>...</think> reasoning block
+ * before the actual JSON. We strip this before parsing.
  */
 
 // TMDB genre name → genre ID mapping
-// We tell the LLM to return genre names (human-readable),
-// then convert them here before calling TMDB.
 const GENRE_MAP = {
   action: 28,
   adventure: 12,
@@ -29,152 +29,282 @@ const GENRE_MAP = {
   "science fiction": 878,
   "sci-fi": 878,
   scifi: 878,
-  "tv movie": 10770,
   thriller: 53,
   war: 10752,
   western: 37,
 };
 
-/**
- * Initialize the OpenAI client pointed at NVIDIA's inference endpoint.
- * This works because NVIDIA exposes an OpenAI-compatible /v1/chat/completions API.
- */
 const getClient = () => {
-  if (!process.env.MISTRAL_API_KEY) {
-    throw new Error("MISTRAL_API_KEY is not set in environment variables.");
+  if (!process.env.GROQ_API_KEY) {
+    throw new Error("GROQ_API_KEY is not set in environment variables.");
   }
-  return new OpenAI({
-    apiKey: process.env.MISTRAL_API_KEY,
-    baseURL: "https://integrate.api.nvidia.com/v1",
-  });
+  return new Groq({ apiKey: process.env.GROQ_API_KEY });
+};
+
+const { LANG_LABELS } = require("./tasteProfile.service");
+
+/**
+ * buildTasteContext
+ * -----------------
+ * Converts a structured taste profile into a rich, LLM-readable context block.
+ * This replaces the old flat title list - the LLM now understands the USER's
+ * actual taste preferences, not just what they've watched.
+ *
+ * Key difference: The mood-ambiguity resolution instruction at the bottom
+ * tells the LLM HOW to break ties using the user's taste data.
+ */
+const buildTasteContext = (tasteProfile) => {
+  if (!tasteProfile || tasteProfile.totalSamples === 0) {
+    return "No personal history available. Use the user's request literally.";
+  }
+
+  const lines = [];
+
+  // ── Genre affinity ────────────────────────────────────────────────────────
+  if (Object.keys(tasteProfile.genreAffinity).length > 0) {
+    const genreList = Object.entries(tasteProfile.genreAffinity)
+      .map(([genre, score]) => `${genre} (${Math.round(score * 100)}% of watches)`)
+      .join(", ");
+    lines.push(`Genre preferences: ${genreList}`);
+  }
+
+  // ── Language affinity ─────────────────────────────────────────────────────
+  const nonEnglishLangs = Object.entries(tasteProfile.languageAffinity)
+    .filter(([lang]) => lang !== "en")
+    .map(([lang, score]) => `${LANG_LABELS[lang] || lang} (${Math.round(score * 100)}%)`)
+    .join(", ");
+  if (nonEnglishLangs) {
+    lines.push(`Non-English cinema affinity: ${nonEnglishLangs}`);
+  }
+
+  // ── Era affinity ──────────────────────────────────────────────────────────
+  if (tasteProfile.topEra) {
+    lines.push(`Preferred era: films from the ${tasteProfile.topEra}`);
+  }
+
+  // ── Discovery tier ────────────────────────────────────────────────────────
+  const tierDescriptions = [
+    "new user - recommend safe, popular mainstream picks",
+    "casual viewer - mix of popular and well-rated films",
+    "engaged cinephile - prioritize quality and craft, open to lesser-known films",
+    "film enthusiast - actively seek hidden gems, avoid obvious mainstream picks",
+  ];
+  lines.push(`User engagement level: ${tierDescriptions[tasteProfile.discoveryTier]}`);
+
+  // ── Mood-ambiguity resolution (the key insight) ───────────────────────────
+  if (tasteProfile.topGenres.length > 0) {
+    const topTwo = tasteProfile.topGenres.slice(0, 2).join(" and ");
+    lines.push(
+      `CRITICAL: When the user's mood is ambiguous between multiple genres, ` +
+      `ALWAYS bias toward their strongest taste signals: ${topTwo}.`
+    );
+  }
+  if (tasteProfile.topLanguage && tasteProfile.topLanguage !== "en") {
+    const langName = LANG_LABELS[tasteProfile.topLanguage] || tasteProfile.topLanguage;
+    lines.push(
+      `CRITICAL: Unless the user's request explicitly specifies a different language/country, ` +
+      `prefer ${langName}-language films since this user watches them heavily.`
+    );
+  }
+
+  return lines.join("\n");
 };
 
 /**
- * buildContextString
- * ------------------
- * Takes the user's watch history and favorites from MongoDB and builds
- * a plain-text string to inject into the prompt.
- * This allows the LLM to avoid recommending already-watched content
- * and understand the user's taste.
- *
- * @param {Array} watchHistory - Last N WatchHistory documents
- * @param {Array} favorites    - User's Favorite documents
- * @returns {string}
+ * extractJSON
+ * -----------
+ * Robustly extracts a JSON object from raw LLM output.
+ * Handles three common LLM response formats:
+ *   1. Qwen3 <think>...</think> reasoning block preceding the JSON
+ *   2. Markdown code fences: ```json { ... } ```
+ *   3. Raw JSON object directly in the response
  */
-const buildContextString = (watchHistory, favorites) => {
-  const watchedTitles = watchHistory
-    .map((h) => h.movieData?.title)
-    .filter(Boolean);
+const extractJSON = (raw) => {
+  let text = raw.trim();
 
-  const favoriteTitles = favorites
-    .map((f) => f.movieData?.title)
-    .filter(Boolean);
+  // Strip Qwen3 reasoning block (everything inside <think>...</think>)
+  text = text.replace(/<think>[\s\S]*?<\/think>/gi, "").trim();
 
-  let context = "";
+  // Strip markdown code fences
+  const fenceMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/);
+  if (fenceMatch) return fenceMatch[1].trim();
 
-  if (watchedTitles.length > 0) {
-    context += `User has recently watched: ${watchedTitles.join(", ")}. `;
-  }
-  if (favoriteTitles.length > 0) {
-    context += `User's favorite movies/shows: ${favoriteTitles.join(", ")}. `;
-  }
-  if (!context) {
-    context = "No personal history available — treat this as a fresh user. ";
-  }
+  // Extract first raw JSON object found
+  const objectMatch = text.match(/\{[\s\S]*\}/);
+  if (objectMatch) return objectMatch[0];
 
-  return context;
+  return text;
 };
 
 /**
  * parseMoodToTMDBParams
  * ----------------------
- * Core function: sends the user's mood string to Mistral via NVIDIA API.
- * Returns a structured object of TMDB discovery parameters + a human-readable rationale.
+ * LLM Call #1 in the discovery pipeline.
+ * Reads the user's natural language mood → structured TMDB params.
  *
- * Prompt engineering strategy:
- *   - Role: Expert film curator
- *   - Task: Parse mood → structured JSON
- *   - Context: User history injected to avoid already-seen content
- *   - Output format: Strict JSON schema (prevents hallucinations)
- *   - Safety: Fallback values if LLM returns unexpected output
- *
- * @param {string} moodText    - Free-form mood input from the user
- * @param {Array}  watchHistory - User's recent watch history
- * @param {Array}  favorites    - User's favorites
- * @returns {Object} { genres, genreIds, keywords, minRating, sortBy, rationale }
+ * Qwen3-32B is significantly stronger than the previous Llama 3.1 8B:
+ * - Better multilingual understanding (critical for regional cinema detection)
+ * - More precise JSON adherence
+ * - Built-in reasoning (think block) improves parameter quality
  */
-const parseMoodToTMDBParams = async (moodText, watchHistory = [], favorites = []) => {
+const parseMoodToTMDBParams = async (moodText, tasteProfile = null) => {
   const client = getClient();
-
-  const contextString = buildContextString(watchHistory, favorites);
+  const contextString = buildTasteContext(tasteProfile);
 
   const systemPrompt = `You are an expert film curator for Kineo, a premium movie discovery platform.
-Your job is to analyze a user's mood and return a JSON object of movie discovery parameters.
+Analyze the user's mood/request and return a JSON object with movie discovery parameters.
 
-RULES:
-1. Return ONLY valid JSON. No explanation, no markdown, no code blocks.
-2. genres must be an array of 1-3 strings from this list ONLY: action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science fiction, thriller, war, western.
-3. keywords must be an array of 1-4 short strings (e.g. "redemption arc", "underdog story", "plot twist") that describe the mood.
-4. minRating must be a number between 0 and 10. For casual moods use 6.5, for quality-focused moods use 7.5.
-5. sortBy must be one of: "popularity.desc", "vote_average.desc", "release_date.desc".
-6. rationale must be a single sentence (max 15 words) explaining why these picks match the mood.
-7. Never recommend content from the user's watch history.
+STRICT RULES:
+1. Return ONLY raw JSON. No markdown, no code fences, no explanation.
+2. "genres": array of 1-2 strings. ONLY genres the user EXPLICITLY mentions or directly implies. Choose from: action, adventure, animation, comedy, crime, documentary, drama, family, fantasy, history, horror, music, mystery, romance, science fiction, thriller, war, western. Do NOT add extra genres the user did not ask for.
+3. "thematicKeywords": array of 0-3 strings. ONLY cultural/geographic/cinematic identifiers. Examples: "bollywood", "anime", "k-drama", "french cinema", "telugu", "south korean film". Leave EMPTY [] for no cultural context. Do NOT put mood words here.
+4. "moodTags": array of 1-3 mood descriptors for UI display only. Examples: "feel-good", "intense", "heartwarming". NOT used for TMDB search.
+5. "language": ISO 639-1 code if user mentions a language or cultural origin. "hi" for Hindi/Bollywood/India, "ko" for Korean, "ja" for Japanese, "fr" for French, "es" for Spanish, "zh" for Chinese, "ta" for Tamil, "te" for Telugu. Set to "" if NOT specified.
+6. "originCountry": ISO 3166-1 alpha-2 if user mentions a country. "IN" for India, "KR" for Korea, "JP" for Japan, "FR" for France. Set to "" if not specified.
+7. "minRating": 6.0 for casual, 7.0 for quality-focused. Never exceed 7.5.
+8. "sortBy": "popularity.desc" normally, "vote_average.desc" for quality-focused.
+9. "rationale": ONE sentence, max 12 words.
 
-OUTPUT SCHEMA (return exactly this structure):
-{
-  "genres": ["string"],
-  "keywords": ["string"],
-  "minRating": number,
-  "sortBy": "string",
-  "rationale": "string"
-}`;
+CRITICAL EXAMPLES:
+- "Indian comedy movies" → genres:["comedy"], thematicKeywords:["bollywood"], language:"hi", originCountry:"IN"
+- "hindi comedy" → genres:["comedy"], thematicKeywords:["bollywood"], language:"hi", originCountry:"IN"
+- "Korean romance drama" → genres:["romance","drama"], thematicKeywords:["k-drama"], language:"ko", originCountry:"KR"
+- "Japanese anime thriller" → genres:["thriller","animation"], thematicKeywords:["anime"], language:"ja", originCountry:"JP"
+- "Tamil action" → genres:["action"], thematicKeywords:["kollywood"], language:"ta", originCountry:"IN"
+- "something intense and dark" → genres:["thriller"], thematicKeywords:[], language:"", originCountry:""
+- "feel-good family movie" → genres:["family","comedy"], thematicKeywords:[], language:"", originCountry:""
+- "French thriller" → genres:["thriller"], thematicKeywords:["french cinema"], language:"fr", originCountry:"FR"
 
-  const userPrompt = `User mood: "${moodText}"
-User context: ${contextString}
-Return the JSON discovery parameters now.`;
+OUTPUT SCHEMA (exact structure, raw JSON only):
+{"genres":["string"],"thematicKeywords":["string"],"moodTags":["string"],"language":"string","originCountry":"string","minRating":number,"sortBy":"string","rationale":"string"}`;
+
+  const userPrompt = `User request: "${moodText}"
+
+USER TASTE PROFILE (use this to resolve ambiguity - do NOT override explicit user requests):
+${contextString}
+
+Return the JSON now.`;
 
   try {
     const response = await client.chat.completions.create({
-      model: "mistralai/mistral-7b-instruct-v0.3",
+      model: "qwen/qwen3-32b",
       messages: [
         { role: "system", content: systemPrompt },
         { role: "user", content: userPrompt },
       ],
-      temperature: 0.4,  // Low temperature = more predictable, structured output
-      max_tokens: 300,
-      response_format: { type: "json_object" },
+      temperature: 0.3,
+      max_tokens: 2048,
     });
 
     const raw = response.choices[0]?.message?.content;
-    if (!raw) throw new Error("Empty response from Mistral");
+    if (!raw) throw new Error("Empty response from Qwen3");
 
-    const parsed = JSON.parse(raw);
+    console.log("[ai.service] Raw Qwen3 response:", raw.slice(0, 300), raw.length > 300 ? "..." : "");
+
+    const jsonString = extractJSON(raw);
+    const parsed = JSON.parse(jsonString);
 
     // Resolve genre names → TMDB genre IDs
     const genreIds = (parsed.genres || [])
       .map((g) => GENRE_MAP[g.toLowerCase().trim()])
       .filter(Boolean);
 
-    return {
-      genres: parsed.genres || [],
+    const result = {
+      genres:           parsed.genres || [],
       genreIds,
-      keywords: parsed.keywords || [],
-      minRating: parsed.minRating ?? 6.5,
-      sortBy: parsed.sortBy || "popularity.desc",
-      rationale: parsed.rationale || "Curated picks based on your mood.",
+      thematicKeywords: parsed.thematicKeywords || [],
+      moodTags:         parsed.moodTags || [],
+      keywords:         parsed.moodTags || [],  // backward-compat for UI rationale display
+      minRating:        parsed.minRating ?? 6.0,
+      sortBy:           parsed.sortBy || "popularity.desc",
+      rationale:        parsed.rationale || "Curated picks based on your mood.",
+      originCountry:    parsed.originCountry || "",
+      language:         parsed.language || "",
     };
+
+    console.log("[ai.service] Parsed result:", {
+      genres:           result.genres,
+      genreIds:         result.genreIds,
+      thematicKeywords: result.thematicKeywords,
+      language:         result.language,
+      originCountry:    result.originCountry,
+      sortBy:           result.sortBy,
+    });
+
+    return result;
   } catch (err) {
-    console.error("[ai.service] Mistral parse error:", err.message);
-    // Graceful fallback — return popular movies if LLM fails
+    console.error("[ai.service] Qwen3 call failed:", err.message);
+    if (err.status) console.error("[ai.service] HTTP status:", err.status);
     return {
-      genres: [],
-      genreIds: [],
-      keywords: [],
-      minRating: 6.5,
-      sortBy: "popularity.desc",
-      rationale: "Top picks for you right now.",
+      genres:           [],
+      genreIds:         [],
+      thematicKeywords: [],
+      moodTags:         [],
+      keywords:         [],
+      minRating:        6.5,
+      sortBy:           "popularity.desc",
+      rationale:        "Top picks for you right now.",
+      originCountry:    "",
+      language:         "",
     };
   }
 };
 
-module.exports = { parseMoodToTMDBParams };
+/**
+ * generateCommunityPicks - LLM Call #2
+ * -------------------------------------
+ * Acts as an "AI Consensus Engine". Uses the LLM's vast training data
+ * of internet discussions (Reddit, Letterboxd, IMDb) to generate the top 5
+ * most highly regarded community favorites for the requested mood.
+ *
+ * @param {string} moodText - Original user mood
+ * @returns {Promise<string[]>} - Array of movie/show title strings
+ */
+const generateCommunityPicks = async (moodText) => {
+  const client = getClient();
+
+  const prompt = `Based on popular consensus from internet movie communities (like Reddit, Letterboxd, and IMDb), what are the top 5 most highly recommended movies for this specific mood/request: "${moodText}"?
+
+Rules:
+- Return ONLY a JSON array of exact movie title strings. Nothing else.
+- Include only widely beloved community favorites that perfectly match the request.
+- Max 5 titles.
+- Do not include opinions, reasons, or descriptions - just the titles.
+- Return ONLY the raw JSON array.`;
+
+  try {
+    const response = await client.chat.completions.create({
+      model: "qwen/qwen3-32b",
+      messages: [{ role: "user", content: prompt }],
+      temperature: 0.1,
+      max_tokens: 2048,
+    });
+
+    const raw = response.choices[0]?.message?.content || "";
+    console.log("[ai.service] Community Picks raw generation:", raw.slice(0, 150) + "...");
+
+    // Strip thinking block
+    let text = raw.replace(/<think>[\s\S]*?<\/think>/gi, "").trim();
+    
+    // Strip markdown formatting if the model wrapped it in ```json ... ```
+    const fenceMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/);
+    if (fenceMatch) text = fenceMatch[1].trim();
+
+    // Extract JSON array
+    const arrayMatch = text.match(/\[[\s\S]*?\]/);
+    if (!arrayMatch) return [];
+
+    const titles = JSON.parse(arrayMatch[0]);
+    const validTitles = Array.isArray(titles)
+      ? titles.filter((t) => typeof t === "string" && t.length > 0)
+      : [];
+
+    console.log(`[ai.service] Generated ${validTitles.length} community picks:`, validTitles);
+    return validTitles;
+  } catch (err) {
+    console.error("[ai.service] Community picks generation failed:", err.message);
+    return [];
+  }
+};
+
+module.exports = { parseMoodToTMDBParams, generateCommunityPicks, buildTasteContext };

@@ -81,7 +81,7 @@ const historySlice = createSlice({
           state.items.unshift(action.payload);
         }
       })
-      // removeFromHistory — uses MongoDB _id
+      // removeFromHistory - uses MongoDB _id
       .addCase(removeFromHistory.fulfilled, (state, action) => {
         state.items = state.items.filter((h) => h._id !== action.payload);
       })

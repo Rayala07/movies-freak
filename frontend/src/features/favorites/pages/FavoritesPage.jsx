@@ -9,10 +9,10 @@ import {
 } from "@remixicon/react";
 
 /**
- * FavoritesPage — Phase F7
+ * FavoritesPage - Phase F7
  * -------------------------
  * Displays all movies/TV shows the user has favorited.
- * Data comes from backend snapshots — no TMDB calls needed.
+ * Data comes from backend snapshots - no TMDB calls needed.
  */
 const FavoritesPage = () => {
   const dispatch = useDispatch();

@@ -6,7 +6,7 @@ import { setQuery } from "../../features/movies/searchSlice";
 import useDebounce from "../hooks/useDebounce";
 
 /**
- * SearchBar — Phase F6
+ * SearchBar - Phase F6
  * -------------------
  * Global search input with smooth expansion and debouncing.
  * Dynamically updates URL query params.

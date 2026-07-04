@@ -6,7 +6,7 @@ const bcrypt = require("bcrypt");
  * -----------
  * Represents every registered user in the platform.
  * Roles: "user" (default) or "admin" (manually set in DB).
- * Passwords are NOT stored as plain text — bcrypt hashes them before saving.
+ * Passwords are NOT stored as plain text - bcrypt hashes them before saving.
  */
 const userSchema = new mongoose.Schema(
   {
@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema(
       trim: true,
     },
 
-    // Email must be unique — used as login identifier
+    // Email must be unique - used as login identifier
     email: {
       type: String,
       required: [true, "Email is required"],
@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema(
       trim: true,
     },
 
-    // Stored as a bcrypt hash — never expose this in API responses
+    // Stored as a bcrypt hash - never expose this in API responses
     password: {
       type: String,
       required: [true, "Password is required"],
@@ -41,7 +41,7 @@ const userSchema = new mongoose.Schema(
       default: "user",
     },
 
-    // Admin can ban a user — banned users cannot log in
+    // Admin can ban a user - banned users cannot log in
     isBanned: {
       type: Boolean,
       default: false,
@@ -62,7 +62,7 @@ const userSchema = new mongoose.Schema(
  *
  * ⚠️ Mongoose v7+ Rule:
  * When using async functions in pre hooks, do NOT use the next() callback.
- * Just use async/await — return to skip, throw to signal an error.
+ * Just use async/await - return to skip, throw to signal an error.
  * Mongoose handles the rest automatically.
  */
 userSchema.pre("save", async function () {

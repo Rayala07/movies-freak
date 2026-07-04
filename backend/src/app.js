@@ -21,14 +21,14 @@ const { errorHandler } = require("./middleware/error.middleware");
 const app = express();
 
 /**
- * Security — Helmet
+ * Security - Helmet
  * -----------------
  * Sets a collection of secure HTTP response headers automatically.
  * Protects against well-known web vulnerabilities:
- *   - XSS (Cross-Site Scripting) — via Content-Security-Policy
- *   - Clickjacking — via X-Frame-Options
- *   - MIME sniffing — via X-Content-Type-Options
- *   - Information leakage — removes X-Powered-By: Express header
+ *   - XSS (Cross-Site Scripting) - via Content-Security-Policy
+ *   - Clickjacking - via X-Frame-Options
+ *   - MIME sniffing - via X-Content-Type-Options
+ *   - Information leakage - removes X-Powered-By: Express header
  */
 app.use(
   helmet({
@@ -100,7 +100,7 @@ app.use(
 );
 
 /**
- * Security — Rate Limiting
+ * Security - Rate Limiting
  * -------------------------
  * Limits how many requests a single IP can make within a time window.
  * Protects against:
@@ -136,7 +136,7 @@ const generalLimiter = rateLimit({
  * CORS Configuration
  * ------------------
  * credentials: true → allows browser to send httpOnly cookies cross-origin.
- * origin must be the exact frontend URL — wildcard (*) breaks credentials.
+ * origin must be the exact frontend URL - wildcard (*) breaks credentials.
  */
 app.use(
   cors({
@@ -176,7 +176,7 @@ app.use("/api/ai", generalLimiter, aiRoutes);
 app.use(errorHandler);
 
 /**
- * Production — Serve React Frontend
+ * Production - Serve React Frontend
  * -----------------------------------
  * When NODE_ENV=production, Express serves the Vite build from backend/client/.
  * The catch-all '*' sends index.html for every non-API route so React Router

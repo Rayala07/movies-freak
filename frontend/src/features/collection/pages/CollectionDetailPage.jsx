@@ -10,7 +10,7 @@ import {
 } from "@remixicon/react";
 
 /**
- * CollectionDetailPage — Kineo Collection
+ * CollectionDetailPage - Kineo Collection
  * -----------------------------------------------
  * Clean premium layout: full-width blurred poster background + card UI.
  * Data path: adminService.getMovieById → adminSlice.collectionDetail

@@ -2,7 +2,7 @@ import Navbar from "./Navbar";
 import { useLocation } from "react-router-dom";
 
 /**
- * Layout — shared wrapper for all protected pages.
+ * Layout - shared wrapper for all protected pages.
  * Navbar is fixed/transparent (cinematic streaming style).
  * Hero pages start at the very top (extend behind navbar).
  * All other pages get a pt-14 spacer so content isn't hidden behind navbar.

@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
  * When a user logs out, their current JWT is stored here.
  *
  * Why?
- *   JWT tokens are stateless — once issued, they remain valid until expiry.
+ *   JWT tokens are stateless - once issued, they remain valid until expiry.
  *   Without a blacklist, a stolen token can be used even AFTER the real user logs out.
  *   By storing the token here on logout, the auth middleware can reject it
  *   even if the JWT signature is technically still valid.
@@ -24,7 +24,7 @@ const blacklistedTokenSchema = new mongoose.Schema({
     unique: true,
   },
 
-  // When the token naturally expires — MongoDB auto-deletes the document at this time
+  // When the token naturally expires - MongoDB auto-deletes the document at this time
   // This must match the JWT's own expiry (7 days from issue)
   expiresAt: {
     type: Date,

@@ -2,7 +2,7 @@ const User = require("../models/User.model");
 
 /**
  * @route   GET /api/users
- * @desc    Admin — Get all registered users
+ * @desc    Admin - Get all registered users
  * @access  Protected + Admin only
  *
  * Returns all users sorted by newest registration first.
@@ -27,7 +27,7 @@ const getAllUsers = async (req, res, next) => {
 
 /**
  * @route   PATCH /api/users/:id/ban
- * @desc    Admin — Toggle ban/unban a user
+ * @desc    Admin - Toggle ban/unban a user
  * @access  Protected + Admin only
  *
  * This single endpoint handles BOTH banning AND unbanning.
@@ -40,7 +40,7 @@ const getAllUsers = async (req, res, next) => {
  *   A banned user's existing valid token will be rejected with 403.
  *
  * Safety Rule:
- *   Admin cannot ban themselves — this would lock them out of the system.
+ *   Admin cannot ban themselves - this would lock them out of the system.
  */
 const banUser = async (req, res, next) => {
   try {
@@ -88,14 +88,14 @@ const banUser = async (req, res, next) => {
 
 /**
  * @route   DELETE /api/users/:id
- * @desc    Admin — Permanently delete a user account
+ * @desc    Admin - Permanently delete a user account
  * @access  Protected + Admin only
  *
  * Removes the user document from the database entirely.
  * Their favorites, watchlist, and history are orphaned (not cascaded).
  *
  * Safety Rule:
- *   Admin cannot delete their own account — this would permanently
+ *   Admin cannot delete their own account - this would permanently
  *   remove the admin from the platform with no way to recover.
  */
 const deleteUser = async (req, res, next) => {

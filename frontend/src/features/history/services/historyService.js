@@ -1,7 +1,7 @@
 import axiosInstance from "../../../shared/utils/axiosInstance";
 
 /**
- * Watch History Service — Layer 4
+ * Watch History Service - Layer 4
  * --------------------------------
  * All API calls related to the user's viewing history.
  */
@@ -28,7 +28,7 @@ const historyService = {
     return data;
   },
 
-  /** DELETE /api/history — wipes entire history for user */
+  /** DELETE /api/history - wipes entire history for user */
   clearAllHistory: async () => {
     const { data } = await axiosInstance.delete("/api/history");
     return data;

@@ -57,7 +57,7 @@ const errorHandler = (err, req, res, next) => {
   res.status(statusCode).json({
     success: false,
     message,
-    // Only show the error stack trace in development — never in production
+    // Only show the error stack trace in development - never in production
     ...(process.env.NODE_ENV === "development" && { stack: err.stack }),
   });
 };

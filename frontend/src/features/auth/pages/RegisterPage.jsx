@@ -46,7 +46,7 @@ const RegisterPage = () => {
           </button>
         </header>
 
-        {/* Centered card — slightly taller for 4 fields, scrollable on short screens */}
+        {/* Centered card - slightly taller for 4 fields, scrollable on short screens */}
         <main className="flex-1 flex items-center justify-center py-4">
           <div className="animate-in delay-200 w-full max-w-sm">
             <div

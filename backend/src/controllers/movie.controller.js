@@ -4,7 +4,7 @@ const { nanoid } = require("nanoid");
 
 
 /**
- * Helper Function — uploadToCloudinary
+ * Helper Function - uploadToCloudinary
  * --------------------------------------
  * Takes the file buffer (from multer memory storage) and uploads it to Cloudinary.
  * Returns the secure URL and public_id of the uploaded image.
@@ -45,7 +45,7 @@ const uploadToCloudinary = (buffer, folder = "kineo/posters") => {
 };
 
 /**
- * Helper Function — extractPublicId
+ * Helper Function - extractPublicId
  * -----------------------------------
  * Extracts the Cloudinary public_id from a stored Cloudinary URL.
  * Needed when we want to delete an old image before uploading a new one.
@@ -71,18 +71,18 @@ const extractPublicId = (url) => {
 
 /**
  * @route   POST /api/movies
- * @desc    Admin — Create a new movie
+ * @desc    Admin - Create a new movie
  * @access  Protected + Admin only
  *
  * Request: multipart/form-data with fields:
  *   title, movieId, description, releaseDate, trailerUrl, genre, category
- *   poster (file) — image uploaded to Cloudinary
+ *   poster (file) - image uploaded to Cloudinary
  */
 const createMovie = async (req, res, next) => {
   try {
     const { title, description, releaseDate, trailerUrl, genre, category } = req.body;
 
-    // Step 1: Validate required fields (movieId removed — auto-generated server-side)
+    // Step 1: Validate required fields (movieId removed - auto-generated server-side)
     if (!title) {
       return res.status(400).json({
         success: false,
@@ -99,10 +99,10 @@ const createMovie = async (req, res, next) => {
     }
 
     // Step 3: Create the movie
-    // movieId is auto-generated using nanoid — unique, URL-safe, 10 chars
+    // movieId is auto-generated using nanoid - unique, URL-safe, 10 chars
     const movie = await Movie.create({
       title,
-      movieId: nanoid(10), // e.g. "V1StGXR8_Z" — unique every time
+      movieId: nanoid(10), // e.g. "V1StGXR8_Z" - unique every time
       poster: posterUrl,
       description,
       releaseDate,
@@ -188,11 +188,11 @@ const getMovieById = async (req, res, next) => {
 
 /**
  * @route   PUT /api/movies/:id
- * @desc    Admin — Update a movie's details
+ * @desc    Admin - Update a movie's details
  * @access  Protected + Admin only
  *
  * If a new poster file is uploaded:
- *   1. Old Cloudinary image is deleted (Option A — clean storage)
+ *   1. Old Cloudinary image is deleted (Option A - clean storage)
  *   2. New image is uploaded to Cloudinary
  *   3. New URL replaces the old one in the DB
  */
@@ -210,7 +210,7 @@ const updateMovie = async (req, res, next) => {
 
     // Step 2: If a new poster image was uploaded, handle Cloudinary replacement
     if (req.file) {
-      // DELETE the old Cloudinary image (Option A — no wasted storage)
+      // DELETE the old Cloudinary image (Option A - no wasted storage)
       const oldPosterUrl = existingMovie.poster;
 
       // Only attempt deletion if the current poster is a Cloudinary URL
@@ -251,7 +251,7 @@ const updateMovie = async (req, res, next) => {
 
 /**
  * @route   DELETE /api/movies/:id
- * @desc    Admin — Delete a movie permanently
+ * @desc    Admin - Delete a movie permanently
  * @access  Protected + Admin only
  *
  * Also deletes the movie's poster from Cloudinary if it was uploaded there.

@@ -33,7 +33,7 @@ const watchHistorySchema = new mongoose.Schema({
 
 
   /**
-   * movieData — Snapshot of key TMDB fields
+   * movieData - Snapshot of key TMDB fields
    * Saved so the watch history page loads instantly
    * without needing extra API calls.
    */

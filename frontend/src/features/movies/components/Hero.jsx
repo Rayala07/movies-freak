@@ -4,7 +4,7 @@ import { RiPlayFill, RiAddLine, RiInformationLine, RiCloseLine } from "@remixico
 import tmdbService from "../services/tmdbService";
 
 /**
- * Hero — Cinematic Carousel
+ * Hero - Cinematic Carousel
  * -------------------------
  * Responsive:
  *   Mobile  → poster_path (portrait, no crop)
@@ -58,7 +58,7 @@ const Hero = ({ movies = [], isDark = true }) => {
   const navigate = useNavigate();
   const count = movies.length;
 
-  // Auto-rotate — paused while trailer modal is open
+  // Auto-rotate - paused while trailer modal is open
   useEffect(() => {
     if (count <= 1 || trailerOpen) return;
     const timer = setInterval(() => {
@@ -97,7 +97,7 @@ const Hero = ({ movies = [], isDark = true }) => {
         setTrailerKey(trailer.key);
         setTrailerOpen(true);
       } else {
-        // No trailer — navigate to detail page instead
+        // No trailer - navigate to detail page instead
         navigate(`/${mediaType}/${movie.id}`);
       }
     } catch {
@@ -116,7 +116,7 @@ const Hero = ({ movies = [], isDark = true }) => {
   const active = movies[activeIndex];
   const mediaType = active.media_type === "tv" ? "tv" : "movie";
 
-  // ── Overlay styles — dark vs light ────────────────────────────────────
+  // ── Overlay styles - dark vs light ────────────────────────────────────
   const overlayLeft = isDark
     ? "linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0.05) 70%, transparent 100%)"
     : "linear-gradient(to right, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.15) 50%, transparent 100%)";
@@ -211,7 +211,7 @@ const Hero = ({ movies = [], isDark = true }) => {
 
             {/* Actions */}
             <div className="flex items-center gap-4">
-              {/* Play Now — fetches trailer */}
+              {/* Play Now - fetches trailer */}
               <button
                 onClick={handlePlayNow}
                 disabled={trailerLoading}

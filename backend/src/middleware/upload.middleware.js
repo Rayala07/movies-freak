@@ -6,7 +6,7 @@ const multer = require("multer");
  * Multer is a middleware that handles multipart/form-data requests
  * (i.e., requests that include a file upload from the browser).
  *
- * We use MEMORY storage — the file is NOT saved to disk.
+ * We use MEMORY storage - the file is NOT saved to disk.
  * Instead it's stored as a Buffer in memory (req.file.buffer).
  * We then pass this buffer directly to Cloudinary for uploading.
  *

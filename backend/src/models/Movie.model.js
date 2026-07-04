@@ -57,7 +57,7 @@ const movieSchema = new mongoose.Schema(
       default: "General",
     },
 
-    // Category helps organize movies — e.g., "Trending", "Hollywood", "Bollywood"
+    // Category helps organize movies - e.g., "Trending", "Hollywood", "Bollywood"
     category: {
       type: String,
       default: "General",

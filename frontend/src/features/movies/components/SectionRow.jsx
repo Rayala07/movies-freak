@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { RiStarFill, RiArrowRightLine } from "@remixicon/react";
 
 /**
- * SectionRow — Reusable horizontal scrollable movie/TV row.
+ * SectionRow - Reusable horizontal scrollable movie/TV row.
  * Used for Popular, Movies, TV Shows sections on HomePage.
  */
 const SectionRow = ({ title, icon: Icon, movies = [], loading = false, accentColor }) => {

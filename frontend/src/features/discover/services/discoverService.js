@@ -1,10 +1,10 @@
 import axiosInstance from "../../../shared/utils/axiosInstance";
 
 /**
- * Discover Service — Layer 4
+ * Discover Service - Layer 4
  * --------------------------
  * Raw API call to our backend AI endpoint.
- * No Redux state, no side effects — pure axios.
+ * No Redux state, no side effects - pure axios.
  *
  * POST /api/ai/mood-search
  * Body: { mood: "string" }

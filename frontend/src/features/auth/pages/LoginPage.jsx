@@ -29,7 +29,7 @@ const LoginPage = () => {
       {/* Centered container */}
       <div className="relative z-10 max-w-8xl mx-auto px-6 lg:px-12 flex flex-col min-h-screen">
 
-        {/* Header — same as LandingPage */}
+        {/* Header - same as LandingPage */}
         <header className="animate-in flex items-center justify-between py-6">
           <Link to="/" className="flex items-center gap-2.5" style={{ textDecoration: "none" }}>
             <RiFilmLine size={20} style={{ color: "var(--accent)" }} />

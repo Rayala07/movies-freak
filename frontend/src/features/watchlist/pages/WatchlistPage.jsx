@@ -9,7 +9,7 @@ import {
 } from "@remixicon/react";
 
 /**
- * WatchlistPage — Phase F7
+ * WatchlistPage - Phase F7
  * -------------------------
  * Displays all movies/TV shows the user wants to watch later.
  */

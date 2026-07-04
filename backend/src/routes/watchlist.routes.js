@@ -13,7 +13,7 @@ const { protectRoute } = require("../middleware/auth.middleware");
  * ----------------
  * Base path: /api/watchlist  (mounted in app.js)
  *
- * ALL routes are protected — user must be logged in.
+ * ALL routes are protected - user must be logged in.
  * Each user accesses and modifies only their OWN watchlist (req.user._id).
  *
  *   GET    /api/watchlist          → get all watchlist items

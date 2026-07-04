@@ -15,15 +15,15 @@ import MovieGrid from "../components/MovieGrid";
 import { RiCompassLine } from "@remixicon/react";
 
 /**
- * HomePage — Phase F4 (Enhanced)
+ * HomePage - Phase F4 (Enhanced)
  * --------------------------------
  * Layout (top → bottom):
  *   1. Cinematic Hero carousel
  *   2. Trending Now strip (numbered cards)
- *   3. Popular  — Trending all/week mix
- *   4. Movies   — Popular movies
- *   5. TV Shows — Popular TV
- *   6. Discover Movies — Infinite scroll grid
+ *   3. Popular  - Trending all/week mix
+ *   4. Movies   - Popular movies
+ *   5. TV Shows - Popular TV
+ *   6. Discover Movies - Infinite scroll grid
  */
 const HomePage = () => {
   const dispatch = useDispatch();
@@ -33,7 +33,7 @@ const HomePage = () => {
     popularAll, popularMovies, popularTV, sectionsLoading,
   } = useSelector((state) => state.movies);
 
-  // Detect theme live — theme system uses data-theme attribute, NOT a class
+  // Detect theme live - theme system uses data-theme attribute, NOT a class
   const [isDark, setIsDark] = useState(
     () => document.documentElement.getAttribute("data-theme") !== "light"
   );
@@ -109,7 +109,7 @@ const HomePage = () => {
         />
       </section>
       
-      {/* 6. Discover Movies — Infinite scroll grid */}
+      {/* 6. Discover Movies - Infinite scroll grid */}
       <MovieGrid
         movies={discoveryMovies}
         loading={loading}

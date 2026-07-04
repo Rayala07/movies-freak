@@ -11,9 +11,9 @@ import useAuth from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 
 /**
- * RegisterForm — Layer 1 (styled)
+ * RegisterForm - Layer 1 (styled)
  * 4 fields: name, email, password, confirmPassword.
- * confirmPassword is frontend-only — stripped before API call.
+ * confirmPassword is frontend-only - stripped before API call.
  */
 const RegisterForm = () => {
   const { register: registerUser, loading, error } = useAuth();

@@ -4,7 +4,7 @@ import { RiEyeLine, RiEyeOffLine, RiMailLine, RiLockLine } from "@remixicon/reac
 import useAuth from "../hooks/useAuth";
 
 /**
- * LoginForm — Layer 1 (styled)
+ * LoginForm - Layer 1 (styled)
  * Handles its own form state via react-hook-form.
  * All submission logic in useAuth hook.
  */

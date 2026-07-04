@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { RiFireFill, RiStarFill } from "@remixicon/react";
 
 /**
- * TrendingStrip — Horizontal showcase of the top 5 trending movies.
+ * TrendingStrip - Horizontal showcase of the top 5 trending movies.
  * Each card navigates to its detail page on click.
  */
 const TrendingStrip = ({ movies = [] }) => {

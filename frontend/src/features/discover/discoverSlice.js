@@ -28,11 +28,12 @@ export const moodSearch = createAsyncThunk(
 const discoverSlice = createSlice({
   name: "discover",
   initialState: {
-    query: "",           // The current mood text the user typed
-    status: "idle",      // "idle" | "loading" | "succeeded" | "failed"
-    results: [],         // Array of TMDB movie objects
-    rationale: "",       // AI-generated one-liner: "Why these picks"
-    params: null,        // { genres, keywords, minRating, sortBy } for display
+    query: "",
+    status: "idle",
+    results: [],
+    rationale: "",
+    params: null,
+    communityPicks: null,  // { count, subreddit, available } from Reddit pipeline
     error: null,
   },
   reducers: {
@@ -43,6 +44,7 @@ const discoverSlice = createSlice({
       state.results = [];
       state.rationale = "";
       state.params = null;
+      state.communityPicks = null;
       state.status = "idle";
       state.error = null;
     },
@@ -60,6 +62,7 @@ const discoverSlice = createSlice({
         state.results = action.payload.results || [];
         state.rationale = action.payload.rationale || "";
         state.params = action.payload.params || null;
+        state.communityPicks = action.payload.communityPicks || null;
       })
       .addCase(moodSearch.rejected, (state, action) => {
         state.status = "failed";

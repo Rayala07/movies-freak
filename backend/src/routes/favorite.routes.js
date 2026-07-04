@@ -9,7 +9,7 @@ const { protectRoute } = require("../middleware/auth.middleware");
  * ----------------
  * Base path: /api/favorites  (mounted in app.js)
  *
- * ALL routes are protected — user must be logged in.
+ * ALL routes are protected - user must be logged in.
  * Each user can only access their OWN favorites (enforced in controller via req.user._id).
  *
  *   GET    /api/favorites         → get all favorites for current user

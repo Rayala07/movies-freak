@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 /**
  * AdminRoute
  * ----------
- * Double guard — user must be BOTH authenticated AND have role === "admin".
+ * Double guard - user must be BOTH authenticated AND have role === "admin".
  * Non-admins are sent to home, unauthenticated users to /login.
  *
  * Usage in routes.jsx:
@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
  * Security note:
  *   This only controls what the frontend renders.
  *   Every admin API endpoint on the backend ALSO checks adminOnly middleware.
- *   Both guards must be in place — this prevents admin UI from ever loading
+ *   Both guards must be in place - this prevents admin UI from ever loading
  *   for non-admins, and the backend ensures no unauthorized data access.
  */
 const AdminRoute = ({ children }) => {

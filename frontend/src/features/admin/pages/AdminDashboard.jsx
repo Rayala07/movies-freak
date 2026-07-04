@@ -26,11 +26,11 @@ import {
 import toast from "react-hot-toast";
 
 /**
- * AdminDashboard — Phase F8
+ * AdminDashboard - Phase F8
  * --------------------------
  * Premium tabbed CMS dashboard:
- *   Tab 1 — Movies: CRUD for admin-managed movie catalog
- *   Tab 2 — Users: View, ban/unban, delete platform users
+ *   Tab 1 - Movies: CRUD for admin-managed movie catalog
+ *   Tab 2 - Users: View, ban/unban, delete platform users
  */
 
 // ── Stat Card ──────────────────────────────────────────────────────────────
@@ -122,7 +122,7 @@ const AdminDashboard = () => {
   // ── Delete with two-tap confirm ─────────────────────────────────────────
   const handleDelete = (id, type) => {
     if (confirmDelete === id) {
-      // Second tap — execute
+      // Second tap - execute
       if (type === "movie") {
         dispatch(deleteMovie(id))
           .unwrap()
@@ -309,14 +309,14 @@ const AdminDashboard = () => {
                           {movie.genre}
                         </span>
                       ) : (
-                        <span style={{ color: "var(--text-muted)", fontSize: "12px" }}>—</span>
+                        <span style={{ color: "var(--text-muted)", fontSize: "12px" }}>-</span>
                       )}
                     </div>
 
                     {/* Category */}
                     <div className="col-span-2 hidden md:block">
                       <p className="text-xs font-medium truncate" style={{ color: "var(--text-secondary)" }}>
-                        {movie.category || "—"}
+                        {movie.category || "-"}
                       </p>
                     </div>
 

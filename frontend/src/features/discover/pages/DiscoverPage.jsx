@@ -6,7 +6,7 @@ import ResultsSkeleton from "../components/ResultsSkeleton";
 import { RiSparklingFill } from "@remixicon/react";
 
 /**
- * DiscoverPage — Kineo Mood-Based Movie Surfing
+ * DiscoverPage - Kineo Mood-Based Movie Surfing
  * -----------------------------------------------
  * The full-page AI discovery experience.
  *
@@ -23,6 +23,7 @@ const DiscoverPage = () => {
     results,
     rationale,
     params,
+    communityPicks,
     error,
     isLoading,
     isSucceeded,
@@ -85,7 +86,7 @@ const DiscoverPage = () => {
           }}
         >
           Describe how you're feeling and our AI will find movies that
-          match your exact vibe — personalized to your taste.
+          match your exact vibe - personalized to your taste.
         </p>
       </div>
 
@@ -108,7 +109,7 @@ const DiscoverPage = () => {
           <div style={{ padding: "0 0 20px" }}>
             <div style={{ textAlign: "center", marginBottom: 28 }}>
               <p style={{ fontSize: 13, color: "var(--text-secondary)", fontStyle: "italic" }}>
-                ✨ Analysing your mood with Mistral AI...
+                ✨ Analysing your mood + checking community picks...
               </p>
             </div>
             <ResultsSkeleton count={12} />
@@ -147,7 +148,7 @@ const DiscoverPage = () => {
             </div>
 
             {/* AI Rationale */}
-            <MoodRationale rationale={rationale} params={params} />
+            <MoodRationale rationale={rationale} params={params} communityPicks={communityPicks} />
 
             {/* Movie Grid */}
             <DiscoverResults results={results} />

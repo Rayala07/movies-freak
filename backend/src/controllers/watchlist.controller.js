@@ -8,7 +8,7 @@ const Watchlist = require("../models/Watchlist.model");
  * Request body:
  *   {
  *     tmdbId    : "550"
- *     mediaType : "movie" | "tv"   ← no "person" — you can't "watch later" an actor
+ *     mediaType : "movie" | "tv"   ← no "person" - you can't "watch later" an actor
  *     movieData : { title, poster, rating, releaseDate, overview }
  *   }
  *
@@ -27,7 +27,7 @@ const addToWatchlist = async (req, res, next) => {
       });
     }
 
-    // Step 2: Validate mediaType — only movie and tv (no person)
+    // Step 2: Validate mediaType - only movie and tv (no person)
     if (!["movie", "tv"].includes(mediaType)) {
       return res.status(400).json({
         success: false,
@@ -103,7 +103,7 @@ const removeFromWatchlist = async (req, res, next) => {
  * @desc    Get all items in the current user's watchlist
  * @access  Protected
  *
- * Returns stored movieData snapshots — no TMDB API call required.
+ * Returns stored movieData snapshots - no TMDB API call required.
  * Sorted newest first so recently added items appear at the top.
  */
 const getWatchlist = async (req, res, next) => {

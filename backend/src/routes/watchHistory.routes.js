@@ -14,7 +14,7 @@ const { protectRoute } = require("../middleware/auth.middleware");
  * --------------------
  * Base path: /api/history  (mounted in app.js)
  *
- * ALL routes are protected — user must be logged in.
+ * ALL routes are protected - user must be logged in.
  * Each user can only access and modify their OWN history (enforced via req.user._id).
  *
  *   GET    /api/history     → get full watch history (newest first)

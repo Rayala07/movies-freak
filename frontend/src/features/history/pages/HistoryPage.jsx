@@ -11,7 +11,7 @@ import {
 import toast from "react-hot-toast";
 
 /**
- * HistoryPage — Phase F7
+ * HistoryPage - Phase F7
  * -----------------------
  * Displays the user's recently viewed movies and TV shows.
  * Features:
@@ -35,13 +35,13 @@ const HistoryPage = () => {
 
   const handleClearAll = () => {
     if (!confirmClear) {
-      // First click — ask for confirmation
+      // First click - ask for confirmation
       setConfirmClear(true);
       // Auto-cancel after 3 seconds
       setTimeout(() => setConfirmClear(false), 3000);
       return;
     }
-    // Second click — confirmed, execute
+    // Second click - confirmed, execute
     dispatch(clearAllHistory());
     toast.success("Watch history cleared");
     setConfirmClear(false);
@@ -68,7 +68,7 @@ const HistoryPage = () => {
             </p>
           </div>
 
-          {/* Clear History button — only visible when there are items */}
+          {/* Clear History button - only visible when there are items */}
           {items.length > 0 && (
             <button
               onClick={handleClearAll}
@@ -144,7 +144,7 @@ const HistoryPage = () => {
                       </div>
                     )}
 
-                    {/* Remove (X) button — appears on hover */}
+                    {/* Remove (X) button - appears on hover */}
                     <button
                       onClick={(e) => handleRemove(entry._id, e)}
                       className="absolute top-3 left-3 flex items-center justify-center w-8 h-8 rounded-full cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-300"

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { RiCloseLine } from "@remixicon/react";
 
 /**
- * TrailerModal — Phase F5
+ * TrailerModal - Phase F5
  * -----------------------
  * Pure CSS overlay modal that embeds a YouTube trailer.
  * Closes via X button, click-outside, or Escape key.
@@ -25,7 +25,7 @@ const TrailerModal = ({ videoKey, onClose }) => {
       style={{ background: "rgba(0, 0, 0, 0.85)", backdropFilter: "blur(8px)" }}
       onClick={onClose}
     >
-      {/* Modal content — stop propagation so clicking inside doesn't close */}
+      {/* Modal content - stop propagation so clicking inside doesn't close */}
       <div
         className="relative w-full max-w-4xl animate-trailer-in"
         onClick={(e) => e.stopPropagation()}

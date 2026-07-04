@@ -1,5 +1,5 @@
 /**
- * validateMoodSearch — Request Validation Middleware
+ * validateMoodSearch - Request Validation Middleware
  * ---------------------------------------------------
  * Sits between protectRoute and the moodSearch controller.
  * Validates and sanitizes the incoming mood string before
@@ -15,7 +15,7 @@
  *   7. mood must not contain suspicious prompt-injection patterns
  *
  * On pass: attaches `req.sanitizedMood` (trimmed) and calls next().
- * On fail: returns 400 immediately — controller never runs.
+ * On fail: returns 400 immediately - controller never runs.
  */
 
 // Patterns that suggest prompt injection attempts.
@@ -66,7 +66,7 @@ const validateMoodSearch = (req, res, next) => {
     });
   }
 
-  // 5. Maximum length — hard cap to prevent prompt injection & token abuse
+  // 5. Maximum length - hard cap to prevent prompt injection & token abuse
   if (trimmed.length > 500) {
     return res.status(400).json({
       success: false,
@@ -84,7 +84,7 @@ const validateMoodSearch = (req, res, next) => {
     }
   }
 
-  // All checks passed — attach sanitized value for the controller
+  // All checks passed - attach sanitized value for the controller
   req.sanitizedMood = trimmed;
   next();
 };

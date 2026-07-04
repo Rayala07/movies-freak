@@ -118,7 +118,7 @@ const adminSlice = createSlice({
     usersLoading: false,
     usersError: null,
 
-    // Collection Detail — isolated from TMDB state
+    // Collection Detail - isolated from TMDB state
     collectionDetail: null,
     collectionDetailLoading: false,
     collectionDetailError: null,
@@ -183,7 +183,7 @@ const adminSlice = createSlice({
         state.usersError = action.payload;
       })
 
-      // toggleBanUser — backend returns updated user object
+      // toggleBanUser - backend returns updated user object
       .addCase(toggleBanUser.fulfilled, (state, action) => {
         if (!action.payload) return;
         const idx = state.users.findIndex((u) => u._id === action.payload._id);

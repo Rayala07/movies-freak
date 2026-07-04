@@ -2,10 +2,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { moodSearch, setQuery, clearResults } from "../discoverSlice";
 
 /**
- * useDiscover — Layer 2 Hook
+ * useDiscover - Layer 2 Hook
  * ---------------------------
  * Bridge between the UI and Redux.
- * Components consume this hook — they never touch Redux or services directly.
+ * Components consume this hook - they never touch Redux or services directly.
  *
  * Returns:
  *   query     - Current mood text
@@ -20,7 +20,7 @@ import { moodSearch, setQuery, clearResults } from "../discoverSlice";
  */
 const useDiscover = () => {
   const dispatch = useDispatch();
-  const { query, status, results, rationale, params, error } = useSelector(
+  const { query, status, results, rationale, params, communityPicks, error } = useSelector(
     (state) => state.discover
   );
 
@@ -44,6 +44,7 @@ const useDiscover = () => {
     results,
     rationale,
     params,
+    communityPicks,
     error,
     isLoading: status === "loading",
     isSucceeded: status === "succeeded",

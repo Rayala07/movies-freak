@@ -9,12 +9,12 @@ const { protectRoute } = require("../middleware/auth.middleware");
  * -----------
  * Base path: /api/auth  (mounted in app.js)
  *
- * Public routes — no token required:
+ * Public routes - no token required:
  *   POST /api/auth/register  → create a new account
  *   POST /api/auth/login     → log in and receive a cookie
  *   POST /api/auth/logout    → clear the cookie
  *
- * Protected route — valid token cookie required:
+ * Protected route - valid token cookie required:
  *   GET  /api/auth/me        → get current logged-in user's data
  *                              (used by frontend on app load to restore session)
  */
@@ -24,7 +24,7 @@ router.post("/register", register);
 router.post("/login", login);
 router.post("/logout", logout);
 
-// Protected route — protectRoute middleware validates the cookie first
+// Protected route - protectRoute middleware validates the cookie first
 router.get("/me", protectRoute, getMe);
 
 module.exports = router;

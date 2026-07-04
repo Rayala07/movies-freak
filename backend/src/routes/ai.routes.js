@@ -13,7 +13,7 @@ const { validateMoodSearch } = require("../middleware/validateMoodSearch.middlew
  * specifically on the AI route: 10 requests per 5 minutes per IP.
  *
  * This is independent of the general 100/15min limiter in app.js.
- * Both apply — whichever is hit first will reject the request.
+ * Both apply - whichever is hit first will reject the request.
  *
  * Why per-IP and not per-user?
  *   Per-IP is simpler and doesn't require reading the JWT before limiting.
@@ -32,15 +32,15 @@ const aiRateLimiter = rateLimit({
 });
 
 /**
- * AI Routes — /api/ai
+ * AI Routes - /api/ai
  * --------------------
  * Middleware chain (in order):
- *   1. aiRateLimiter   — Reject if IP exceeded 10 requests/5 min (no token spend)
- *   2. protectRoute    — Reject if JWT is missing/invalid/expired/blacklisted
- *   3. validateMoodSearch — Reject if mood field is missing, wrong type,
+ *   1. aiRateLimiter   - Reject if IP exceeded 10 requests/5 min (no token spend)
+ *   2. protectRoute    - Reject if JWT is missing/invalid/expired/blacklisted
+ *   3. validateMoodSearch - Reject if mood field is missing, wrong type,
  *                          too short (<5), too long (>500), or contains
  *                          prompt-injection patterns
- *   4. moodSearch      — Safe to run: user is authenticated, input is validated
+ *   4. moodSearch      - Safe to run: user is authenticated, input is validated
  *
  * POST /api/ai/mood-search
  *   Body: { mood: "string" }
@@ -53,5 +53,16 @@ router.post(
   validateMoodSearch,
   moodSearch
 );
+
+/**
+ * GET /api/ai/taste-profile
+ * -------------------------
+ * Diagnostic endpoint. Returns the derived Taste DNA profile for the
+ * logged-in user - exactly what gets injected into the LLM prompt.
+ * Useful for measuring whether personalization is working correctly.
+ * No AI token cost (pure data derivation + TMDB enrichment only).
+ */
+const { tasteProfileDebug } = require("../controllers/ai.controller");
+router.get("/taste-profile", protectRoute, tasteProfileDebug);
 
 module.exports = router;

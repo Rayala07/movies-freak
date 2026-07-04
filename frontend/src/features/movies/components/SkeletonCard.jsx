@@ -1,5 +1,5 @@
 /**
- * SkeletonCard — Phase F4
+ * SkeletonCard - Phase F4
  * ----------------------
  * A pulsing placeholder for the MovieCard.
  * Maintains UI stability (no layout shift) while images are loading.

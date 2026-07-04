@@ -1,13 +1,13 @@
 import axiosInstance from "../../../shared/utils/axiosInstance";
 
 /**
- * Auth Service — Layer 4
+ * Auth Service - Layer 4
  * ----------------------
  * All HTTP calls for authentication.
  * Uses axiosInstance which has baseURL + withCredentials: true
  * so httpOnly cookies are automatically attached/received.
  *
- * Never import this directly into components — always go via useAuth hook.
+ * Never import this directly into components - always go via useAuth hook.
  */
 
 /**

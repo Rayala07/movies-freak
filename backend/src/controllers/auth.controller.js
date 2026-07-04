@@ -4,7 +4,7 @@ const BlacklistedToken = require("../models/BlacklistedToken.model");
 
 
 /**
- * Helper Function — generateTokenAndSetCookie
+ * Helper Function - generateTokenAndSetCookie
  * ---------------------------------------------
  * Creates a signed JWT token and stores it in an httpOnly browser cookie.
  *
@@ -16,7 +16,7 @@ const BlacklistedToken = require("../models/BlacklistedToken.model");
  * @param {Object} user   - The User document from MongoDB
  */
 const generateTokenAndSetCookie = (res, user) => {
-  // Sign the JWT with user id and role — expires in 7 days
+  // Sign the JWT with user id and role - expires in 7 days
   const token = jwt.sign(
     { id: user._id, role: user.role },
     process.env.JWT_SECRET,
@@ -54,7 +54,7 @@ const register = async (req, res, next) => {
       });
     }
 
-    // Step 1b: Validate password length — must be at least 6 characters
+    // Step 1b: Validate password length - must be at least 6 characters
     // This matches the minlength: 6 constraint set in User.model.js
     if (password.length < 6) {
       return res.status(400).json({
@@ -183,7 +183,7 @@ const login = async (req, res, next) => {
  *
  * Why blacklist the token?
  *   JWT tokens stay cryptographically valid until they expire (7 days).
- *   Simply clearing the cookie isn't enough — if someone copied the token
+ *   Simply clearing the cookie isn't enough - if someone copied the token
  *   before logout, they could still use it. Blacklisting the token ensures
  *   the protectRoute middleware will reject it even if presented again.
  */
@@ -233,7 +233,7 @@ const logout = async (req, res, next) => {
  */
 const getMe = async (req, res, next) => {
   try {
-    // req.user is set by protectRoute middleware — just return it
+    // req.user is set by protectRoute middleware - just return it
     res.status(200).json({
       success: true,
       user: {

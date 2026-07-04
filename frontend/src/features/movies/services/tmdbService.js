@@ -1,7 +1,7 @@
 import tmdbInstance from "../../../shared/utils/tmdbInstance";
 
 /**
- * tmdbService — Layer 4
+ * tmdbService - Layer 4
  * --------------------
  * Pure functions to fetch data from TMDB.
  * Supports pagination via the 'page' parameter.

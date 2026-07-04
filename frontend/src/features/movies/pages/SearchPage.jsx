@@ -7,7 +7,7 @@ import useInfiniteScroll from "../../../shared/hooks/useInfiniteScroll";
 import { RiSearchLine, RiInformationLine } from "@remixicon/react";
 
 /**
- * SearchPage — Phase F6
+ * SearchPage - Phase F6
  * -------------------
  * Displays search results for movies, TV shows, and people.
  * Reuses MovieGrid and handles infinite scroll.

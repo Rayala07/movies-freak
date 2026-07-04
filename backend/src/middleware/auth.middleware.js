@@ -3,7 +3,7 @@ const User = require("../models/User.model");
 const BlacklistedToken = require("../models/BlacklistedToken.model");
 
 /**
- * Auth Middleware — protectRoute
+ * Auth Middleware - protectRoute
  * --------------------------------
  * This middleware runs BEFORE any protected controller.
  * It ensures the request is coming from a logged-in user

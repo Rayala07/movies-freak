@@ -26,7 +26,7 @@ export const performSearch = createAsyncThunk(
 );
 
 /**
- * searchSlice — Layer 3 (State)
+ * searchSlice - Layer 3 (State)
  */
 const searchSlice = createSlice({
   name: "search",

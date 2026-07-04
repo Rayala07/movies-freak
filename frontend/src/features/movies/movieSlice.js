@@ -102,7 +102,7 @@ export const fetchPopularTV = createAsyncThunk(
 );
 
 /**
- * movieSlice — Layer 3 (State)
+ * movieSlice - Layer 3 (State)
  */
 const movieSlice = createSlice({
   name: "movies",

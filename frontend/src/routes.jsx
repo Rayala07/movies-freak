@@ -25,7 +25,7 @@ import "./shared/styles/global.css";
  * Admin     → wrapped in AdminRoute + Layout
  *
  * Layout renders Navbar at the top of every protected page.
- * Added progressively — placeholder divs replaced as phases are built.
+ * Added progressively - placeholder divs replaced as phases are built.
  */
 export const routes = createBrowserRouter([
   // ── Public (no Navbar) ──────────────────────────────────────────────
@@ -147,5 +147,5 @@ export const routes = createBrowserRouter([
   },
 
   // ── 404 ─────────────────────────────────────────────────────────────
-  { path: "*", element: <div className="p-8">404 — Page not found</div> },
+  { path: "*", element: <div className="p-8">404 - Page not found</div> },
 ]);

@@ -1,18 +1,14 @@
 import { RiSparklingLine } from "@remixicon/react";
 
-/**
- * MoodRationale
- * -------------
- * Displays the AI-generated one-liner explaining why these movies were picked.
- * Also shows the interpreted genre/keyword tags so the user can trust the AI's logic.
- */
-const MoodRationale = ({ rationale, params }) => {
+const MoodRationale = ({ rationale, params, communityPicks }) => {
   if (!rationale) return null;
 
   const tags = [
     ...(params?.genres || []),
     ...(params?.keywords || []),
   ].filter(Boolean).slice(0, 6);
+
+  const hasCommunity = communityPicks?.available && communityPicks?.count > 0;
 
   return (
     <div
@@ -39,7 +35,32 @@ const MoodRationale = ({ rationale, params }) => {
         </p>
       </div>
 
-      {/* Interpreted tags */}
+      {/* Community picks pill - only shown when consensus returned results */}
+      {hasCommunity && (
+        <div style={{ display: "flex", alignItems: "center", gap: 8, paddingLeft: 25 }}>
+          <span
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 5,
+              padding: "3px 10px",
+              background: "rgba(249,115,22,0.12)",
+              border: "1px solid rgba(249,115,22,0.3)",
+              borderRadius: 100,
+              fontSize: 11,
+              color: "#fb923c",
+              fontWeight: 600,
+            }}
+          >
+            🧡 {communityPicks.count} Loved by the Community
+          </span>
+          <span style={{ fontSize: 11, color: "var(--text-muted)" }}>
+            · based on internet consensus
+          </span>
+        </div>
+      )}
+
+      {/* Interpreted AI tags */}
       {tags.length > 0 && (
         <div style={{ display: "flex", flexWrap: "wrap", gap: 6, paddingLeft: 25 }}>
           {tags.map((tag) => (

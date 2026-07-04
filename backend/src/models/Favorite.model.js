@@ -34,7 +34,7 @@ const favoriteSchema = new mongoose.Schema(
 
 
     /**
-     * movieData — Snapshot of key TMDB fields
+     * movieData - Snapshot of key TMDB fields
      * We save this so the favorites page loads instantly
      * without making another call to TMDB for every item.
      */

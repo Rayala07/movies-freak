@@ -12,7 +12,7 @@ import { RiSparklingFill, RiSendPlaneFill, RiCloseLine } from "@remixicon/react"
 const SUGGESTIONS = [
   "Something intense and emotional, but not too heavy...",
   "A feel-good movie I can watch with family tonight",
-  "I want to be on the edge of my seat — psychological thriller",
+  "I want to be on the edge of my seat - psychological thriller",
   "A visually stunning sci-fi with great world-building",
   "Light romantic comedy, nothing too serious",
   "A dark crime thriller with clever plot twists",

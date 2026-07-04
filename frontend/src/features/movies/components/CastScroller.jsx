@@ -1,7 +1,7 @@
 import { RiUserLine } from "@remixicon/react";
 
 /**
- * CastScroller — Phase F5
+ * CastScroller - Phase F5
  * -----------------------
  * Horizontal scrolling list of cast members.
  * Shows profile image (or fallback icon), actor name, and character name.

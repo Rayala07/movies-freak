@@ -15,7 +15,7 @@ const Favorite = require("../models/Favorite.model");
  *   }
  *
  * Why save movieData (snapshot)?
- *   TMDB data is always fetched live — we don't store it permanently.
+ *   TMDB data is always fetched live - we don't store it permanently.
  *   But the favorites page needs to display movie cards (title, poster, etc.)
  *   without making a separate TMDB API call for EACH favorited movie.
  *   So we save a small copy ("snapshot") of those display fields at the time
@@ -33,7 +33,7 @@ const addFavorite = async (req, res, next) => {
       });
     }
 
-    // Step 2: Validate mediaType — must be movie, tv, or person (actor/director)
+    // Step 2: Validate mediaType - must be movie, tv, or person (actor/director)
     if (!["movie", "tv", "person"].includes(mediaType)) {
       return res.status(400).json({
         success: false,
@@ -114,7 +114,7 @@ const removeFavorite = async (req, res, next) => {
  * @desc    Get all favorites for the currently logged-in user
  * @access  Protected
  *
- * Returns stored movieData snapshots — no TMDB API call needed.
+ * Returns stored movieData snapshots - no TMDB API call needed.
  * Sorted newest first so recently added favorites appear at the top.
  */
 const getFavorites = async (req, res, next) => {

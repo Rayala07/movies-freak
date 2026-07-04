@@ -25,7 +25,7 @@ services:
         sync: false
       - key: CLIENT_URL
         sync: false
-      - key: MISTRAL_API_KEY
+      - key: GROQ_API_KEY
         sync: false
       - key: TMDB_READ_ACCESS_TOKEN
         sync: false

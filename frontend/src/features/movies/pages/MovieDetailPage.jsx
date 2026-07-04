@@ -25,7 +25,7 @@ import TrailerModal from "../components/TrailerModal";
 import CastScroller from "../components/CastScroller";
 
 /**
- * MovieDetailPage — Phase F5 + F7
+ * MovieDetailPage - Phase F5 + F7
  * --------------------------------
  * Full-page detail view for movies and TV shows.
  * F7 additions: Favorite toggle, Watchlist toggle, auto-History.
@@ -39,7 +39,7 @@ const MovieDetailPage = ({ mediaType = "movie" }) => {
   const favoriteItems = useSelector((state) => state.favorites.items);
   const watchlistItems = useSelector((state) => state.watchlist.items);
   const [showTrailer, setShowTrailer] = useState(false);
-  // Detect theme live — theme system uses data-theme attribute, NOT a class
+  // Detect theme live - theme system uses data-theme attribute, NOT a class
   const [isDark, setIsDark] = useState(
     () => document.documentElement.getAttribute("data-theme") !== "light"
   );
@@ -197,7 +197,7 @@ const MovieDetailPage = ({ mediaType = "movie" }) => {
       {/* ─── Cinematic Backdrop ─────────────────────────────────────── */}
       <div className="relative w-full h-[55vh] xl:h-[70vh] overflow-hidden">
 
-        {/* Mobile + Tablet: portrait poster — no cropping */}
+        {/* Mobile + Tablet: portrait poster - no cropping */}
         <div className="block xl:hidden absolute inset-0">
           <img
             src={posterUrl}

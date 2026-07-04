@@ -36,7 +36,7 @@ const watchlistSchema = new mongoose.Schema(
     },
 
     /**
-     * movieData — Snapshot of key TMDB fields
+     * movieData - Snapshot of key TMDB fields
      * Saved for fast rendering on the watchlist page.
      */
     movieData: {

@@ -7,7 +7,7 @@ import {
 } from "@remixicon/react";
 
 /**
- * MovieFormModal — Phase F8
+ * MovieFormModal - Phase F8
  * -------------------------
  * Slide-in drawer modal for creating or editing a movie.
  * Handles poster file preview + FormData submission.
@@ -185,7 +185,7 @@ const MovieFormModal = ({ movie = null, onClose, onSubmit, loading }) => {
                       Drop poster here or click to browse
                     </p>
                     <p className="text-xs mt-1" style={{ color: "var(--text-muted)" }}>
-                      JPG, PNG, WebP — max 5MB
+                      JPG, PNG, WebP - max 5MB
                     </p>
                   </div>
                 </div>

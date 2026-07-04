@@ -5,11 +5,11 @@ import { fetchAdminMovies } from "../../admin/adminSlice";
 import { RiInboxLine } from "@remixicon/react";
 
 /**
- * CollectionPage — Kineo Collection
+ * CollectionPage - Kineo Collection
  * ----------------------------------------
  * Renders movies added by the admin from the backend DB (/api/movies).
  * Data path: adminService → adminSlice → this page.
- * COMPLETELY ISOLATED from TMDB data — no shared state, no shared routes.
+ * COMPLETELY ISOLATED from TMDB data - no shared state, no shared routes.
  *
  * Clicking a card → /collection/:id (CollectionDetailPage)
  * NOT /movie/:id (which uses TMDB data)
